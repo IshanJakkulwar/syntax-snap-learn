@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { LessonCard } from "./LessonCard";
 import { QuizCard } from "./QuizCard";
-import { sampleLessons, sampleQuizzes } from "@/data/sampleContent";
+import { expandedLessons, expandedQuizzes } from "@/data/expandedContent";
 import { toast } from "sonner";
 
 interface FeedItem {
@@ -17,14 +17,14 @@ export const Feed = () => {
     // Generate feed with lessons and periodic quizzes
     const items: FeedItem[] = [];
     
-    sampleLessons.forEach((lesson, index) => {
+    expandedLessons.forEach((lesson, index) => {
       items.push({ type: "lesson", data: lesson });
       
       // Add quiz every 3 lessons
-      if ((index + 1) % 3 === 0 && sampleQuizzes[Math.floor(index / 3)]) {
+      if ((index + 1) % 5 === 0 && expandedQuizzes[Math.floor(index / 5)]) {
         items.push({ 
           type: "quiz", 
-          data: sampleQuizzes[Math.floor(index / 3)] 
+          data: expandedQuizzes[Math.floor(index / 5)] 
         });
       }
     });

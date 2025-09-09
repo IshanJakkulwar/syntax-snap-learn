@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import { Home } from "@/pages/Home";
 import { Explore } from "@/pages/Explore";
 import { Practice } from "@/pages/Practice";
@@ -13,6 +14,22 @@ const queryClient = new QueryClient();
 
 const App = () => {
   const [activeTab, setActiveTab] = useState("home");
+  const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
+
+  const handleOnboardingComplete = (data: any) => {
+    console.log("Onboarding completed:", data);
+    setHasCompletedOnboarding(true);
+  };
+
+  if (!hasCompletedOnboarding) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <OnboardingFlow onComplete={handleOnboardingComplete} />
+        </TooltipProvider>
+      </QueryClientProvider>
+    );
+  }
 
   const renderContent = () => {
     switch (activeTab) {
