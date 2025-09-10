@@ -37,7 +37,11 @@ const learningHistory = [
   { id: "3", title: "Python Functions", completed: true, score: 92, completedAt: "2 days ago" },
 ];
 
-export const Profile = () => {
+interface ProfileProps {
+  onNavigateToSettings: () => void;
+}
+
+export const Profile = ({ onNavigateToSettings }: ProfileProps) => {
   const [activeTab, setActiveTab] = useState("saved");
 
   const xpPercentage = (userStats.xp / userStats.nextLevelXp) * 100;
@@ -57,7 +61,7 @@ export const Profile = () => {
             <div className="flex-1">
               <div className="flex items-center justify-between mb-2">
                 <h1 className="text-2xl font-bold">{userStats.username}</h1>
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" onClick={onNavigateToSettings}>
                   <Settings className="w-4 h-4 mr-2" />
                   Settings
                 </Button>
@@ -166,7 +170,7 @@ export const Profile = () => {
             <Card className="p-6">
               <h3 className="font-semibold mb-4">Saved Lessons</h3>
               <div className="space-y-3">
-                {savedLessons.map((lesson) => (
+                {savedLessons.slice(0, 3).map((lesson) => (
                   <div key={lesson.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
                     <div className="w-10 h-10 bg-gradient-primary rounded-lg flex items-center justify-center">
                       <span className="text-primary-foreground font-bold text-xs">
@@ -180,6 +184,11 @@ export const Profile = () => {
                     <Badge variant="secondary">{lesson.language}</Badge>
                   </div>
                 ))}
+                {savedLessons.length > 3 && (
+                  <button className="w-full p-3 text-center text-primary hover:bg-muted/50 rounded-lg transition-colors">
+                    See More ({savedLessons.length - 3} more)
+                  </button>
+                )}
               </div>
             </Card>
           </TabsContent>
@@ -188,7 +197,7 @@ export const Profile = () => {
             <Card className="p-6">
               <h3 className="font-semibold mb-4">Learning History</h3>
               <div className="space-y-3">
-                {learningHistory.map((item) => (
+                {learningHistory.slice(0, 3).map((item) => (
                   <div key={item.id} className="flex items-center gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors">
                     <div className="w-10 h-10 bg-success/10 border border-success/20 rounded-lg flex items-center justify-center">
                       <div className="w-2 h-2 bg-success rounded-full"></div>
@@ -202,6 +211,11 @@ export const Profile = () => {
                     </Badge>
                   </div>
                 ))}
+                {learningHistory.length > 3 && (
+                  <button className="w-full p-3 text-center text-primary hover:bg-muted/50 rounded-lg transition-colors">
+                    See More ({learningHistory.length - 3} more)
+                  </button>
+                )}
               </div>
             </Card>
           </TabsContent>
@@ -210,7 +224,7 @@ export const Profile = () => {
             <Card className="p-6">
               <h3 className="font-semibold mb-4">All Achievements</h3>
               <div className="grid gap-4">
-                {achievements.map((achievement) => (
+                {achievements.slice(0, 3).map((achievement) => (
                   <div
                     key={achievement.id}
                     className={`p-4 rounded-lg border transition-all duration-200 ${
@@ -233,6 +247,11 @@ export const Profile = () => {
                     </div>
                   </div>
                 ))}
+                {achievements.length > 3 && (
+                  <button className="w-full p-3 text-center text-primary hover:bg-muted/50 rounded-lg transition-colors">
+                    See More ({achievements.length - 3} more)
+                  </button>
+                )}
               </div>
             </Card>
           </TabsContent>
@@ -246,7 +265,11 @@ export const Profile = () => {
                 <p className="text-sm text-muted-foreground mb-4">
                   Learn together and see each other's progress
                 </p>
-                <Button className="gradient-primary text-primary-foreground hover:opacity-90">
+                <Button className="gradient-primary text-primary-foreground hover:opacity-90" onClick={() => {
+                  navigator.clipboard.writeText(`${window.location.origin}?invite=codingwizard`);
+                  // toast would go here but we'll show simple alert for now
+                  alert("Invite link copied! Share with friends to learn together.");
+                }}>
                   Find Friends
                 </Button>
               </div>

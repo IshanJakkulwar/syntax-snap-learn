@@ -9,12 +9,18 @@ import { Home } from "@/pages/Home";
 import { Explore } from "@/pages/Explore";
 import { Practice } from "@/pages/Practice";
 import { Profile } from "@/pages/Profile";
+import { NotesPage } from "@/pages/NotesPage";
+import { Settings } from "@/pages/Settings";
+import { MyCourses } from "@/pages/MyCourses";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
+  const [currentView, setCurrentView] = useState<{ page: string; data?: any }>({ page: "home" });
+  const isMobile = useIsMobile();
 
   const handleOnboardingComplete = (data: any) => {
     console.log("Onboarding completed:", data);
@@ -32,18 +38,29 @@ const App = () => {
   }
 
   const renderContent = () => {
-    switch (activeTab) {
+    switch (currentView.page) {
       case "home":
-        return <Home />;
+        return <Home onNavigateToNotes={(lessonId: string) => setCurrentView({ page: "notes", data: { lessonId } })} />;
       case "explore":
-        return <Explore />;
+        return <Explore onNavigateToMyCourses={() => setCurrentView({ page: "my-courses" })} />;
       case "practice":
         return <Practice />;
       case "profile":
-        return <Profile />;
+        return <Profile onNavigateToSettings={() => setCurrentView({ page: "settings" })} />;
+      case "notes":
+        return <NotesPage lessonId={currentView.data?.lessonId} onBack={() => setCurrentView({ page: "home" })} />;
+      case "settings":
+        return <Settings onBack={() => setCurrentView({ page: "profile" })} />;
+      case "my-courses":
+        return <MyCourses />;
       default:
-        return <Home />;
+        return <Home onNavigateToNotes={(lessonId: string) => setCurrentView({ page: "notes", data: { lessonId } })} />;
     }
+  };
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    setCurrentView({ page: tab });
   };
 
   return (
@@ -53,7 +70,7 @@ const App = () => {
         <Sonner />
         <div className="min-h-screen bg-background">
           {renderContent()}
-          <BottomNav activeTab={activeTab} onTabChange={setActiveTab} />
+          {isMobile && <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />}
         </div>
       </TooltipProvider>
     </QueryClientProvider>

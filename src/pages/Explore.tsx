@@ -53,7 +53,11 @@ const collections = [
   }
 ];
 
-export const Explore = () => {
+interface ExploreProps {
+  onNavigateToMyCourses?: () => void;
+}
+
+export const Explore = ({ onNavigateToMyCourses }: ExploreProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedLevel, setSelectedLevel] = useState<string>("");
@@ -165,12 +169,18 @@ export const Explore = () => {
           </div>
         )}
 
-        {/* Quick Filters */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
-          <Badge variant="outline" className="whitespace-nowrap">Trending 🔥</Badge>
-          <Badge variant="outline" className="whitespace-nowrap">For You ⭐</Badge>
-          <Badge variant="outline" className="whitespace-nowrap">New This Week 🆕</Badge>
-          <Badge variant="outline" className="whitespace-nowrap">Friends Liked 👥</Badge>
+        {/* Navigation Tabs */}
+        <div className="flex gap-2 mb-6 border-b border-border">
+          <Button variant="ghost" className="border-b-2 border-primary font-semibold">
+            For You
+          </Button>
+          <Button 
+            variant="ghost" 
+            className="text-muted-foreground hover:text-foreground"
+            onClick={onNavigateToMyCourses}
+          >
+            My Courses
+          </Button>
         </div>
 
         {/* Collections Grid */}

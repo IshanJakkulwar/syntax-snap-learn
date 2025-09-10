@@ -5,26 +5,44 @@ import { expandedLessons, expandedQuizzes } from "@/data/expandedContent";
 import { toast } from "sonner";
 
 interface FeedItem {
-  type: "lesson" | "quiz";
+  type: "lesson" | "quiz" | "ad";
   data: any;
 }
 
-export const Feed = () => {
+interface FeedProps {
+  onNavigateToNotes: (lessonId: string) => void;
+}
+
+export const Feed = ({ onNavigateToNotes }: FeedProps) => {
   const [feedItems, setFeedItems] = useState<FeedItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    // Generate feed with lessons and periodic quizzes
+    // Generate feed with lessons, periodic quizzes, and ads
     const items: FeedItem[] = [];
     
     expandedLessons.forEach((lesson, index) => {
       items.push({ type: "lesson", data: lesson });
       
-      // Add quiz every 3 lessons
+      // Add quiz every 5 lessons
       if ((index + 1) % 5 === 0 && expandedQuizzes[Math.floor(index / 5)]) {
         items.push({ 
           type: "quiz", 
           data: expandedQuizzes[Math.floor(index / 5)] 
+        });
+      }
+      
+      // Add promotional ad every 15 items
+      if ((index + 1) % 15 === 0) {
+        items.push({
+          type: "ad",
+          data: {
+            id: `ad-${index}`,
+            title: "Upgrade to Pro",
+            description: "Unlock advanced courses and coding challenges",
+            cta: "Start Free Trial",
+            image: "🚀"
+          }
         });
       }
     });
@@ -118,13 +136,25 @@ export const Feed = () => {
               onLike={() => handleLike(item.data.id)}
               onSave={() => handleSave(item.data.id)}
               onShare={handleShare}
+              onSwipeRight={() => onNavigateToNotes(item.data.id)}
             />
-          ) : (
+          ) : item.type === "quiz" ? (
             <QuizCard
               quiz={item.data}
               onAnswer={handleQuizAnswer}
               onSkip={handleQuizSkip}
             />
+          ) : (
+            <div className="h-screen flex items-center justify-center p-4">
+              <div className="max-w-md w-full bg-gradient-to-br from-primary to-primary-glow rounded-2xl p-8 text-center text-primary-foreground">
+                <div className="text-6xl mb-4">{item.data.image}</div>
+                <h2 className="text-2xl font-bold mb-2">{item.data.title}</h2>
+                <p className="text-lg opacity-90 mb-6">{item.data.description}</p>
+                <button className="bg-white text-primary px-6 py-3 rounded-full font-semibold hover:bg-white/90 transition-colors">
+                  {item.data.cta}
+                </button>
+              </div>
+            </div>
           )}
         </div>
       ))}
