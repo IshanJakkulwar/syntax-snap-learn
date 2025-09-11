@@ -128,10 +128,10 @@ export const LessonCard = ({
           )}
         </div>
 
-        {/* Caption area - mobile bottom, desktop top-left */}
-        <div className="absolute bottom-0 left-0 right-0 lg:top-6 lg:left-4 lg:bottom-auto lg:right-auto bg-gradient-to-t lg:bg-black/20 lg:backdrop-blur-sm lg:rounded-lg from-black/60 to-transparent lg:from-transparent lg:to-transparent p-4 lg:max-w-md pb-20 lg:pb-4 lg:mt-16">
-          <div className="lg:bg-transparent">
-            <h2 className="text-white text-xl lg:text-2xl font-bold mb-2 lg:mb-1">{lesson.title}</h2>
+        {/* Caption area - bottom for all devices */}
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 pb-20">
+          <div>
+            <h2 className="text-white text-xl lg:text-2xl font-bold mb-2">{lesson.title}</h2>
             <p className="text-white text-sm leading-relaxed">{lesson.caption}</p>
             <p className="text-white/70 text-xs mt-1">{lesson.duration}</p>
             

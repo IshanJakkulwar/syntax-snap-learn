@@ -145,12 +145,12 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
               onSkip={handleQuizSkip}
             />
           ) : (
-            <div className="h-screen flex items-center justify-center p-4">
-              <div className="max-w-md w-full bg-gradient-to-br from-primary to-primary-glow rounded-2xl p-8 text-center text-primary-foreground">
-                <div className="text-6xl mb-4">{item.data.image}</div>
-                <h2 className="text-2xl font-bold mb-2">{item.data.title}</h2>
-                <p className="text-lg opacity-90 mb-6">{item.data.description}</p>
-                <button className="bg-white text-primary px-6 py-3 rounded-full font-semibold hover:bg-white/90 transition-colors">
+            <div className="h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary to-primary-glow relative">
+              <div className="text-center text-primary-foreground z-10">
+                <div className="text-8xl mb-6">{item.data.image}</div>
+                <h2 className="text-3xl font-bold mb-4">{item.data.title}</h2>
+                <p className="text-xl opacity-90 mb-8 max-w-md">{item.data.description}</p>
+                <button className="bg-white text-primary px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/90 transition-colors">
                   {item.data.cta}
                 </button>
               </div>
