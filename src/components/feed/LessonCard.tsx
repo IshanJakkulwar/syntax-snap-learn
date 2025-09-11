@@ -120,7 +120,7 @@ export const LessonCard = ({
         </div>
 
         {/* Caption area (mobile bottom, desktop left) */}
-        <div className="absolute bottom-0 left-0 right-20 lg:right-0 lg:left-4 lg:top-1/2 lg:-translate-y-1/2 lg:bottom-auto bg-gradient-to-t lg:bg-none from-black/60 to-transparent lg:from-transparent lg:to-transparent p-4 lg:max-w-md">
+        <div className="absolute bottom-0 left-0 right-0 lg:right-0 lg:left-4 lg:top-1/2 lg:-translate-y-1/2 lg:bottom-auto bg-gradient-to-t lg:bg-none from-black/60 to-transparent lg:from-transparent lg:to-transparent p-4 lg:max-w-md pb-20 lg:pb-4">
           <div className="lg:bg-black/20 lg:backdrop-blur-sm lg:rounded-lg lg:p-3">
             <p className="text-white text-sm leading-relaxed">{lesson.caption}</p>
             <p className="text-white/70 text-xs mt-1">{lesson.duration}</p>
@@ -139,19 +139,19 @@ export const LessonCard = ({
           </div>
         </div>
 
-        {/* Right side action buttons (mobile only) */}
-        <div className="absolute right-4 bottom-20 lg:hidden flex flex-col gap-3">
+        {/* Right side action buttons (mobile only) - centered vertically like TikTok */}
+        <div className="absolute right-3 top-1/2 -translate-y-1/2 lg:hidden flex flex-col gap-4 z-20">
           <Button
             variant="ghost"
             size="sm"
             onClick={onLike}
             className={cn(
-              "w-12 h-12 rounded-full bg-black/20 backdrop-blur-sm text-white hover:bg-white/20 transition-colors flex-col",
-              lesson.isLiked && "text-red-400"
+              "w-14 h-14 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/40 transition-all duration-150 flex-col border-0",
+              lesson.isLiked ? "text-red-500 bg-red-500/20" : "text-white"
             )}
           >
-            <Heart className={cn("w-6 h-6", lesson.isLiked && "fill-current")} />
-            <span className="text-xs mt-1">{lesson.likes > 999 ? `${Math.floor(lesson.likes/1000)}k` : lesson.likes}</span>
+            <Heart className={cn("w-7 h-7", lesson.isLiked && "fill-current")} />
+            <span className="text-xs mt-0.5 font-medium">{lesson.likes > 999 ? `${Math.floor(lesson.likes/1000)}k` : lesson.likes}</span>
           </Button>
 
           <Button
@@ -159,38 +159,41 @@ export const LessonCard = ({
             size="sm"
             onClick={onSave}
             className={cn(
-              "w-12 h-12 rounded-full bg-black/20 backdrop-blur-sm text-white hover:bg-white/20 transition-colors",
-              lesson.isSaved && "text-yellow-400"
+              "w-14 h-14 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/40 transition-all duration-150 border-0",
+              lesson.isSaved ? "text-yellow-400 bg-yellow-400/20" : "text-white"
             )}
           >
-            <Bookmark className={cn("w-6 h-6", lesson.isSaved && "fill-current")} />
+            <Bookmark className={cn("w-7 h-7", lesson.isSaved && "fill-current")} />
           </Button>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setShowCode(!showCode)}
-            className="w-12 h-12 rounded-full bg-black/20 backdrop-blur-sm text-white hover:bg-white/20"
+            className={cn(
+              "w-14 h-14 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/40 transition-all duration-150 border-0",
+              showCode ? "text-blue-400 bg-blue-400/20" : "text-white"
+            )}
           >
-            <span className="text-xs font-bold">{"</>"}</span>
+            <span className="text-lg font-bold">{"</>"}</span>
           </Button>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={onShare}
-            className="w-12 h-12 rounded-full bg-black/20 backdrop-blur-sm text-white hover:bg-white/20"
+            className="w-14 h-14 rounded-full bg-black/30 backdrop-blur-sm text-white hover:bg-black/40 transition-all duration-150 border-0"
           >
-            <Share2 className="w-6 h-6" />
+            <Share2 className="w-7 h-7" />
           </Button>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={onSwipeRight}
-            className="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-sm text-white hover:bg-primary/30"
+            className="w-14 h-14 rounded-full bg-primary/30 backdrop-blur-sm text-white hover:bg-primary/40 transition-all duration-150 border-0"
           >
-            <span className="text-xs font-bold">📝</span>
+            <span className="text-xl">📝</span>
           </Button>
         </div>
 
