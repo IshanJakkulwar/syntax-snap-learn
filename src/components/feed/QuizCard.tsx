@@ -134,13 +134,15 @@ export const QuizCard = ({ quiz, onAnswer, onSkip }: QuizCardProps) => {
 
         {/* Submit button */}
         {!showResult && (
-          <Button
-            onClick={handleSubmit}
-            disabled={selectedAnswer === null}
-            className="w-full h-12 text-lg font-semibold gradient-primary text-primary-foreground hover:opacity-90 transition-opacity"
-          >
-            Submit Answer
-          </Button>
+          <div className="pb-20 md:pb-0">
+            <Button
+              onClick={handleSubmit}
+              disabled={selectedAnswer === null}
+              className="w-full h-12 text-lg font-semibold gradient-primary text-primary-foreground hover:opacity-90 transition-opacity"
+            >
+              Submit Answer
+            </Button>
+          </div>
         )}
       </div>
     </Card>

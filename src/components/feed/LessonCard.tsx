@@ -135,17 +135,6 @@ export const LessonCard = ({
             <p className="text-white text-sm leading-relaxed">{lesson.caption}</p>
             <p className="text-white/70 text-xs mt-1">{lesson.duration}</p>
             
-            {/* Show Code button for mobile */}
-            <div className="lg:hidden mt-3">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setShowCode(!showCode)}
-                className="text-white hover:bg-white/20"
-              >
-                {showCode ? "Hide Code" : "Show Code"}
-              </Button>
-            </div>
           </div>
         </div>
 
