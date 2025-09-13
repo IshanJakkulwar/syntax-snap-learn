@@ -4,6 +4,7 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BottomNav } from "@/components/layout/BottomNav";
+import { DesktopSideNav } from "@/components/layout/DesktopSideNav";
 import { OnboardingFlow } from "@/components/onboarding/OnboardingFlow";
 import { Home } from "@/pages/Home";
 import { Explore } from "@/pages/Explore";
@@ -68,9 +69,16 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <div className="min-h-screen bg-background">
-          {renderContent()}
-          {isMobile && <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />}
+        <div className="min-h-screen bg-background flex">
+          {!isMobile && (
+            <DesktopSideNav activeTab={activeTab} onTabChange={handleTabChange} />
+          )}
+          <main className="flex-1 w-full md:ml-20">
+            {renderContent()}
+          </main>
+          {isMobile && (
+            <BottomNav activeTab={activeTab} onTabChange={handleTabChange} />
+          )}
         </div>
       </TooltipProvider>
     </QueryClientProvider>
