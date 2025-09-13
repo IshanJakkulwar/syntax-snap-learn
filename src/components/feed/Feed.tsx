@@ -155,7 +155,7 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
               onSkip={handleQuizSkip}
             />
           ) : (
-            <div className="h-[calc(100vh-56px)] md:h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary to-primary-glow relative snap-item">
+            <div className="h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary to-primary-glow relative snap-item">
               <div className="text-center text-primary-foreground z-10">
                 <div className="text-8xl mb-6">{item.data.image}</div>
                 <h2 className="text-3xl font-bold mb-4">{item.data.title}</h2>

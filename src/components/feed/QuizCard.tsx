@@ -38,7 +38,7 @@ export const QuizCard = ({ quiz, onAnswer, onSkip }: QuizCardProps) => {
   };
 
   return (
-    <Card className="relative w-full h-[calc(100vh-56px)] md:h-screen max-w-md mx-auto bg-card overflow-hidden snap-item border-none shadow-none">
+    <Card className="relative w-full h-screen max-w-md mx-auto bg-card overflow-hidden snap-item border-none shadow-none">
       {/* Quiz indicator */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-accent z-20"></div>
 
