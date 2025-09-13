@@ -53,7 +53,7 @@ export const LessonCard = ({
   };
 
   return (
-    <Card className="relative w-full h-screen max-w-md mx-auto bg-card overflow-hidden snap-item border-none shadow-none">
+    <Card className="relative w-full h-[calc(100vh-56px)] md:h-screen max-w-md mx-auto bg-card overflow-hidden snap-item border-none shadow-none">
       {/* Progress bar */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-border z-20">
         <div className="h-full bg-primary w-0 transition-all duration-300 ease-out"></div>
@@ -129,7 +129,7 @@ export const LessonCard = ({
         </div>
 
         {/* Caption area - bottom for all devices */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 pb-16">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 pb-4 md:pb-20">
           <div>
             <h2 className="text-white text-xl lg:text-2xl font-bold mb-2">{lesson.title}</h2>
             <p className="text-white text-sm leading-relaxed">{lesson.caption}</p>
