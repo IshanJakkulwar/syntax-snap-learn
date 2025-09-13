@@ -132,17 +132,15 @@ export const QuizCard = ({ quiz, onAnswer, onSkip }: QuizCardProps) => {
           )}
         </div>
 
-        {/* Submit button */}
+        {/* Submit button - positioned right after options */}
         {!showResult && (
-          <div className="pb-20 md:pb-0">
-            <Button
-              onClick={handleSubmit}
-              disabled={selectedAnswer === null}
-              className="w-full h-12 text-lg font-semibold gradient-primary text-primary-foreground hover:opacity-90 transition-opacity"
-            >
-              Submit Answer
-            </Button>
-          </div>
+          <Button
+            onClick={handleSubmit}
+            disabled={selectedAnswer === null}
+            className="w-full h-12 text-lg font-semibold gradient-primary text-primary-foreground hover:opacity-90 transition-opacity mb-4"
+          >
+            Submit Answer
+          </Button>
         )}
       </div>
     </Card>
