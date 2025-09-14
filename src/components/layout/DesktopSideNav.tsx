@@ -15,7 +15,7 @@ const navItems = [
 
 export const DesktopSideNav = ({ activeTab, onTabChange }: DesktopSideNavProps) => {
   return (
-    <aside className="hidden md:flex fixed left-0 top-0 bottom-0 z-40 w-20 bg-card/95 backdrop-blur-sm border-r border-border py-4">
+    <aside className="hidden md:flex fixed left-0 top-0 bottom-0 z-40 w-24 bg-card/95 backdrop-blur-sm border-r border-border py-4">
       <nav className="flex flex-col items-center justify-between w-full h-full">
         <div className="flex flex-col items-center gap-2 w-full">
           {navItems.map((item) => {
@@ -32,7 +32,7 @@ export const DesktopSideNav = ({ activeTab, onTabChange }: DesktopSideNavProps) 
                 aria-label={item.label}
               >
                 <Icon size={24} className={cn("mb-1", isActive && "drop-shadow-sm")} />
-                <span className="text-[10px] font-medium truncate max-w-[64px]">{item.label}</span>
+                <span className="text-[10px] font-medium truncate max-w-[80px]">{item.label}</span>
               </button>
             );
           })}

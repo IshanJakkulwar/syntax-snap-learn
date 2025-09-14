@@ -67,6 +67,19 @@ export const QuizCard = ({ quiz, onAnswer, onSkip }: QuizCardProps) => {
           )}
         </div>
 
+        {/* Mobile submit button */}
+        {!showResult && (
+          <div className="mb-4 md:hidden">
+            <Button
+              onClick={handleSubmit}
+              disabled={selectedAnswer === null}
+              className="w-full h-11 text-base font-semibold gradient-primary text-primary-foreground"
+            >
+              Submit Answer
+            </Button>
+          </div>
+        )}
+
         {/* Question */}
         <div className="flex-1 flex flex-col justify-center">
           <h2 className="text-xl font-bold mb-6 leading-relaxed">
@@ -134,13 +147,15 @@ export const QuizCard = ({ quiz, onAnswer, onSkip }: QuizCardProps) => {
 
         {/* Submit button - positioned right after options */}
         {!showResult && (
-          <Button
-            onClick={handleSubmit}
-            disabled={selectedAnswer === null}
-            className="w-full h-12 text-lg font-semibold gradient-primary text-primary-foreground hover:opacity-90 transition-opacity mb-4"
-          >
-            Submit Answer
-          </Button>
+          <div className="hidden md:block">
+            <Button
+              onClick={handleSubmit}
+              disabled={selectedAnswer === null}
+              className="w-full h-12 text-lg font-semibold gradient-primary text-primary-foreground hover:opacity-90 transition-opacity mb-4"
+            >
+              Submit Answer
+            </Button>
+          </div>
         )}
       </div>
     </Card>

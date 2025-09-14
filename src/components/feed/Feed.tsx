@@ -51,55 +51,58 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
   }, []);
 
   const handleLike = (lessonId: string) => {
-    setFeedItems(prev => prev.map(item => {
-      if (item.type === "lesson" && item.data.id === lessonId) {
-        const isLiked = !item.data.isLiked;
-        return {
-          ...item,
-          data: {
-            ...item.data,
-            isLiked,
-            likes: item.data.likes + (isLiked ? 1 : -1)
-          }
-        };
-      }
-      return item;
-    }));
-    
-    const lesson = feedItems.find(item => item.type === "lesson" && item.data.id === lessonId)?.data;
-    if (lesson?.isLiked) {
-      toast.success("Added to your liked lessons!");
-    } else {
-      toast.success("Removed from liked lessons!");
-    }
+    setFeedItems((prev) => {
+      let isNowLiked = false;
+      const updated = prev.map((item) => {
+        if (item.type === "lesson" && item.data.id === lessonId) {
+          isNowLiked = !item.data.isLiked;
+          return {
+            ...item,
+            data: {
+              ...item.data,
+              isLiked: isNowLiked,
+              likes: item.data.likes + (isNowLiked ? 1 : -1),
+            },
+          };
+        }
+        return item;
+      });
+
+      toast.success(
+        isNowLiked ? "Added to your liked lessons!" : "Removed from liked lessons!",
+        { duration: 2000 }
+      );
+
+      return updated;
+    });
   };
 
   const handleSave = (lessonId: string) => {
-    setFeedItems(prev => prev.map(item => {
-      if (item.type === "lesson" && item.data.id === lessonId) {
-        const isSaved = !item.data.isSaved;
-        return {
-          ...item,
-          data: {
-            ...item.data,
-            isSaved
-          }
-        };
-      }
-      return item;
-    }));
-    
-    const lesson = feedItems.find(item => item.type === "lesson" && item.data.id === lessonId)?.data;
-    if (lesson?.isSaved) {
-      toast.success("Saved for later!");
-    } else {
-      toast.success("Removed from saved lessons!");
-    }
+    setFeedItems((prev) => {
+      let isNowSaved = false;
+      const updated = prev.map((item) => {
+        if (item.type === "lesson" && item.data.id === lessonId) {
+          isNowSaved = !item.data.isSaved;
+          return {
+            ...item,
+            data: {
+              ...item.data,
+              isSaved: isNowSaved,
+            },
+          };
+        }
+        return item;
+      });
+
+      toast.success(isNowSaved ? "Saved for later!" : "Removed from saved lessons!", { duration: 2000 });
+
+      return updated;
+    });
   };
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
-    toast.success("Link copied to clipboard!");
+    toast.success("Link copied to clipboard!", { duration: 2000 });
   };
 
   const handleQuizAnswer = (correct: boolean) => {

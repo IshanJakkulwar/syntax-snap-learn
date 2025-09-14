@@ -73,7 +73,7 @@ const App = () => {
           {!isMobile && (
             <DesktopSideNav activeTab={activeTab} onTabChange={handleTabChange} />
           )}
-          <main className="flex-1 w-full md:ml-20">
+          <main className="flex-1 w-full md:ml-24">
             {renderContent()}
           </main>
           {isMobile && (
