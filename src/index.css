@@ -187,3 +187,10 @@ All colors MUST be HSL.
     scroll-snap-stop: always;
   }
 }
+
+@layer utilities {
+  /* Enable native momentum scrolling on iOS within nested scroll areas */
+  .ios-touch-scroll {
+    -webkit-overflow-scrolling: touch;
+  }
+}

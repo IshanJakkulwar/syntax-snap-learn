@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { LessonCard } from "./LessonCard";
 import { QuizCard } from "./QuizCard";
 import { expandedLessons, expandedQuizzes } from "@/data/expandedContent";
@@ -16,6 +16,15 @@ interface FeedProps {
 export const Feed = ({ onNavigateToNotes }: FeedProps) => {
   const [feedItems, setFeedItems] = useState<FeedItem[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const listRef = useRef<HTMLDivElement | null>(null);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+
+  useEffect(() => {
+    const el = itemRefs.current[currentIndex];
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [currentIndex]);
 
   useEffect(() => {
     // Generate feed with lessons, periodic quizzes, and ads
@@ -139,9 +148,9 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
   }
 
   return (
-    <div className="h-screen overflow-y-auto snap-scroll custom-scrollbar">
+    <div ref={listRef} className="h-screen overflow-y-auto snap-scroll custom-scrollbar">
       {feedItems.map((item, index) => (
-        <div key={`${item.type}-${index}`} className="w-full">
+        <div ref={(el) => (itemRefs.current[index] = el)} key={`${item.type}-${index}`} className="w-full">
           {item.type === "lesson" ? (
             <LessonCard
               lesson={item.data}
