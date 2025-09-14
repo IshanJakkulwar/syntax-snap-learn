@@ -163,8 +163,8 @@ export const MyCourses = () => {
                   </div>
 
                   {/* Course Info */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="mt-2 flex flex-col items-center gap-3">
+                    <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
                       <Badge variant="secondary" className="text-xs">
                         {course.level}
                       </Badge>

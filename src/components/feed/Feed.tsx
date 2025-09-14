@@ -18,11 +18,13 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const listRef = useRef<HTMLDivElement | null>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const programmaticScroll = useRef(false);
 
   useEffect(() => {
     const el = itemRefs.current[currentIndex];
-    if (el) {
+    if (el && programmaticScroll.current) {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      programmaticScroll.current = false;
     }
   }, [currentIndex]);
 
@@ -58,6 +60,31 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
     
     setFeedItems(items);
   }, []);
+
+  // Keep currentIndex in sync with the visible item
+  useEffect(() => {
+    const rootEl = listRef.current;
+    if (!rootEl) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) {
+          const idx = Number((visible.target as HTMLElement).dataset.index);
+          if (!Number.isNaN(idx)) {
+            setCurrentIndex((prev) => (prev !== idx ? idx : prev));
+          }
+        }
+      },
+      { root: rootEl, threshold: 0.6 }
+    );
+
+    itemRefs.current.forEach((el) => el && observer.observe(el));
+
+    return () => observer.disconnect();
+  }, [feedItems.length]);
 
   const handleLike = (lessonId: string) => {
     setFeedItems((prev) => {
@@ -124,6 +151,7 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
     // Move to next item after quiz
     setTimeout(() => {
       if (currentIndex < feedItems.length - 1) {
+        programmaticScroll.current = true;
         setCurrentIndex(prev => prev + 1);
       }
     }, 1500);
@@ -132,6 +160,7 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
   const handleQuizSkip = () => {
     toast("Quiz skipped");
     if (currentIndex < feedItems.length - 1) {
+      programmaticScroll.current = true;
       setCurrentIndex(prev => prev + 1);
     }
   };
@@ -150,7 +179,7 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
   return (
     <div ref={listRef} className="h-screen overflow-y-auto snap-scroll custom-scrollbar">
       {feedItems.map((item, index) => (
-        <div ref={(el) => (itemRefs.current[index] = el)} key={`${item.type}-${index}`} className="w-full">
+        <div ref={(el) => (itemRefs.current[index] = el)} data-index={index} key={`${item.type}-${index}`} className="w-full">
           {item.type === "lesson" ? (
             <LessonCard
               lesson={item.data}
