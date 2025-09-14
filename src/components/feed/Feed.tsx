@@ -59,29 +59,6 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
     setFeedItems(items);
   }, []);
 
-  // Sync currentIndex to the item most visible in viewport
-  useEffect(() => {
-    if (!listRef.current) return;
-    const root = listRef.current;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter(e => e.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) {
-          const idxAttr = (visible.target as HTMLElement).dataset.index;
-          const idx = idxAttr ? Number(idxAttr) : NaN;
-          if (!Number.isNaN(idx)) {
-            setCurrentIndex(idx);
-          }
-        }
-      },
-      { root, threshold: [0.5, 0.75, 1] }
-    );
-    itemRefs.current.forEach(el => el && observer.observe(el));
-    return () => observer.disconnect();
-  }, [feedItems]);
-
   const handleLike = (lessonId: string) => {
     setFeedItems((prev) => {
       let isNowLiked = false;
@@ -144,8 +121,12 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
       toast.error("Not quite right. Keep learning! 📚");
     }
     
-    // Auto-advance disabled; only Skip moves to next item
-
+    // Move to next item after quiz
+    setTimeout(() => {
+      if (currentIndex < feedItems.length - 1) {
+        setCurrentIndex(prev => prev + 1);
+      }
+    }, 1500);
   };
 
   const handleQuizSkip = () => {
@@ -169,7 +150,7 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
   return (
     <div ref={listRef} className="h-screen overflow-y-auto snap-scroll custom-scrollbar">
       {feedItems.map((item, index) => (
-        <div ref={(el) => (itemRefs.current[index] = el)} data-index={index} key={`${item.type}-${index}`} className="w-full">
+        <div ref={(el) => (itemRefs.current[index] = el)} key={`${item.type}-${index}`} className="w-full">
           {item.type === "lesson" ? (
             <LessonCard
               lesson={item.data}
