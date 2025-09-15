@@ -129,7 +129,7 @@ export const LessonCard = ({
         </div>
 
         {/* Caption area - bottom for all devices */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 pb-16">
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 pb-20 md:pb-16">
           <div>
             <h2 className="text-white text-xl lg:text-2xl font-bold mb-2">{lesson.title}</h2>
             <p className="text-white text-sm leading-relaxed">{lesson.caption}</p>

@@ -42,9 +42,9 @@ export const QuizCard = ({ quiz, onAnswer, onSkip }: QuizCardProps) => {
       {/* Quiz indicator */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-accent z-20"></div>
 
-      <div className="h-full flex flex-col p-6">
+        <div className="h-full flex flex-col p-6 pb-20 md:pb-6">
         {/* Header */}
-        <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center justify-between mb-4 md:mb-6">
           <div className="flex items-center gap-2">
             <Badge variant="outline" className="bg-accent/10 text-accent border-accent/20">
               Quiz Time! 🧠
@@ -67,35 +67,22 @@ export const QuizCard = ({ quiz, onAnswer, onSkip }: QuizCardProps) => {
           )}
         </div>
 
-        {/* Mobile submit button */}
-        {!showResult && (
-          <div className="mb-4 md:hidden">
-            <Button
-              onClick={handleSubmit}
-              disabled={selectedAnswer === null}
-              className="w-full h-11 text-base font-semibold gradient-primary text-primary-foreground"
-            >
-              Submit Answer
-            </Button>
-          </div>
-        )}
-
         {/* Question */}
-        <div className="flex-1 flex flex-col justify-center">
-          <h2 className="text-xl font-bold mb-6 leading-relaxed">
+        <div className="flex-1 flex flex-col justify-start md:justify-center">
+          <h2 className="text-xl font-bold mb-4 md:mb-6 leading-relaxed">
             {quiz.question}
           </h2>
 
           {/* MCQ Options */}
           {quiz.type === "mcq" && quiz.options && (
-            <div className="space-y-3 mb-6">
+            <div className="space-y-3 mb-4 md:mb-6">
               {quiz.options.map((option, index) => (
                 <button
                   key={index}
                   onClick={() => !showResult && setSelectedAnswer(index)}
                   disabled={showResult}
                   className={cn(
-                    "w-full p-4 text-left rounded-xl border-2 transition-all duration-200",
+                    "w-full p-3 md:p-4 text-left rounded-xl border-2 transition-all duration-200",
                     "hover:border-primary/50 hover:bg-primary/5",
                     selectedAnswer === index && !showResult && "border-primary bg-primary/10",
                     showResult && selectedAnswer === index && isCorrect && "border-success bg-success/10",
@@ -104,7 +91,7 @@ export const QuizCard = ({ quiz, onAnswer, onSkip }: QuizCardProps) => {
                   )}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-medium">{option}</span>
+                    <span className="font-medium text-sm md:text-base">{option}</span>
                     {showResult && index === quiz.correctAnswer && (
                       <CheckCircle className="w-5 h-5 text-success" />
                     )}
@@ -117,10 +104,23 @@ export const QuizCard = ({ quiz, onAnswer, onSkip }: QuizCardProps) => {
             </div>
           )}
 
+          {/* Mobile submit button - directly below options */}
+          {!showResult && (
+            <div className="md:hidden mb-4">
+              <Button
+                onClick={handleSubmit}
+                disabled={selectedAnswer === null}
+                className="w-full h-11 text-base font-semibold gradient-primary text-primary-foreground"
+              >
+                Submit Answer
+              </Button>
+            </div>
+          )}
+
           {/* Result */}
           {showResult && (
             <div className={cn(
-              "p-4 rounded-xl mb-6 animate-fade-in",
+              "p-3 md:p-4 rounded-xl mb-4 md:mb-6 animate-fade-in",
               isCorrect ? "bg-success/10 border border-success/20" : "bg-destructive/10 border border-destructive/20"
             )}>
               <div className="flex items-center gap-2 mb-2">
@@ -145,7 +145,7 @@ export const QuizCard = ({ quiz, onAnswer, onSkip }: QuizCardProps) => {
           )}
         </div>
 
-        {/* Submit button - positioned right after options */}
+        {/* Desktop submit button */}
         {!showResult && (
           <div className="hidden md:block">
             <Button
