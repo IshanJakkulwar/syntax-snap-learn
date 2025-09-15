@@ -58,7 +58,11 @@ const courses = [
   }
 ];
 
-export const MyCourses = () => {
+interface MyCoursesProps {
+  onNavigateToCourse?: (courseId: string) => void;
+}
+
+export const MyCourses = ({ onNavigateToCourse }: MyCoursesProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState("recent");
 
@@ -163,21 +167,35 @@ export const MyCourses = () => {
                   </div>
 
                   {/* Course Info */}
-                  <div className="mt-2 flex flex-col items-center gap-3">
-                    <div className="flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <Badge variant="secondary" className="text-xs">
                         {course.level}
                       </Badge>
+                      <span>•</span>
                       <span className="flex items-center gap-1">
                         <Clock className="w-3 h-3" />
                         {course.estimatedTime}
                       </span>
-                      <span>•</span>
-                      <span>Last accessed {course.lastAccessed}</span>
                     </div>
-
-                    <Button size="sm" className="gradient-primary text-primary-foreground hover:opacity-90">
-                      <Play className="w-4 h-4 mr-2" />
+                    <div className="text-xs text-muted-foreground text-right">
+                      Last accessed {course.lastAccessed}
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between mt-3">
+                    <div className="flex-1 mr-3">
+                      <div className="flex justify-between text-xs text-muted-foreground mb-1">
+                        <span>Progress</span>
+                        <span>{course.progress}%</span>
+                      </div>
+                      <Progress value={course.progress} className="h-1.5" />
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="shrink-0"
+                      onClick={() => onNavigateToCourse?.(course.id)}
+                    >
                       {course.progress === 0 ? "Start" : "Continue"}
                     </Button>
                   </div>

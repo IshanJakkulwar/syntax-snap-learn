@@ -1,4 +1,5 @@
 import { Home, Search, Play, User } from "lucide-react";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { cn } from "@/lib/utils";
 
 interface DesktopSideNavProps {
@@ -37,7 +38,10 @@ export const DesktopSideNav = ({ activeTab, onTabChange }: DesktopSideNavProps) 
             );
           })}
         </div>
-        <div className="h-6" />
+        {/* Theme toggle at bottom */}
+        <div className="mt-auto">
+          <ThemeToggle />
+        </div>
       </nav>
     </aside>
   );

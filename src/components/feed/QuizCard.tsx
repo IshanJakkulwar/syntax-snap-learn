@@ -68,7 +68,7 @@ export const QuizCard = ({ quiz, onAnswer, onSkip }: QuizCardProps) => {
         </div>
 
         {/* Question */}
-        <div className="flex-1 flex flex-col justify-start md:justify-center">
+        <div className="flex-1 flex flex-col justify-center">
           <h2 className="text-xl font-bold mb-4 md:mb-6 leading-relaxed">
             {quiz.question}
           </h2>

@@ -13,6 +13,7 @@ import { Profile } from "@/pages/Profile";
 import { NotesPage } from "@/pages/NotesPage";
 import { Settings } from "@/pages/Settings";
 import { MyCourses } from "@/pages/MyCourses";
+import { CourseDetail } from "@/pages/CourseDetail";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const queryClient = new QueryClient();
@@ -43,7 +44,10 @@ const App = () => {
       case "home":
         return <Home onNavigateToNotes={(lessonId: string) => setCurrentView({ page: "notes", data: { lessonId } })} />;
       case "explore":
-        return <Explore onNavigateToMyCourses={() => setCurrentView({ page: "my-courses" })} />;
+        return <Explore 
+          onNavigateToMyCourses={() => setCurrentView({ page: "my-courses" })} 
+          onNavigateToCourse={(courseId: string) => setCurrentView({ page: "course-detail", data: { courseId } })}
+        />;
       case "practice":
         return <Practice />;
       case "profile":
@@ -53,7 +57,13 @@ const App = () => {
       case "settings":
         return <Settings onBack={() => setCurrentView({ page: "profile" })} />;
       case "my-courses":
-        return <MyCourses />;
+        return <MyCourses onNavigateToCourse={(courseId: string) => setCurrentView({ page: "course-detail", data: { courseId } })} />;
+      case "course-detail":
+        return <CourseDetail 
+          courseId={currentView.data?.courseId} 
+          onBack={() => setCurrentView({ page: "explore" })}
+          onStartCourse={() => setCurrentView({ page: "home" })}
+        />;
       default:
         return <Home onNavigateToNotes={(lessonId: string) => setCurrentView({ page: "notes", data: { lessonId } })} />;
     }

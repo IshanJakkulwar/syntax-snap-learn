@@ -55,9 +55,10 @@ const collections = [
 
 interface ExploreProps {
   onNavigateToMyCourses?: () => void;
+  onNavigateToCourse?: (courseId: string) => void;
 }
 
-export const Explore = ({ onNavigateToMyCourses }: ExploreProps) => {
+export const Explore = ({ onNavigateToMyCourses, onNavigateToCourse }: ExploreProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTopics, setSelectedTopics] = useState<string[]>([]);
   const [selectedLevel, setSelectedLevel] = useState<string>("");
@@ -115,7 +116,7 @@ export const Explore = ({ onNavigateToMyCourses }: ExploreProps) => {
               <div>
                 <h3 className="font-medium mb-2">Topics</h3>
                 <div className="flex flex-wrap gap-2">
-                  {topics.map((topic) => (
+                  {topics.slice(0, 6).map((topic) => (
                     <Badge
                       key={topic}
                       variant={selectedTopics.includes(topic) ? "default" : "outline"}
@@ -128,6 +129,19 @@ export const Explore = ({ onNavigateToMyCourses }: ExploreProps) => {
                       {topic}
                     </Badge>
                   ))}
+                  {topics.length > 6 && (
+                    <Badge 
+                      variant="outline" 
+                      className="cursor-pointer"
+                      onClick={() => {
+                        // Show all topics
+                        const remainingTopics = topics.slice(6);
+                        setSelectedTopics(prev => [...prev, ...remainingTopics]);
+                      }}
+                    >
+                      See more +{topics.length - 6}
+                    </Badge>
+                  )}
                 </div>
               </div>
 
@@ -186,7 +200,11 @@ export const Explore = ({ onNavigateToMyCourses }: ExploreProps) => {
         {/* Collections Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {filteredCollections.map((collection) => (
-            <Card key={collection.id} className="p-6 hover:shadow-medium transition-all duration-200 cursor-pointer group">
+            <Card 
+              key={collection.id} 
+              className="p-6 hover:shadow-medium transition-all duration-200 cursor-pointer group"
+              onClick={() => onNavigateToCourse?.(collection.id)}
+            >
               <div className="flex items-start gap-4">
                 <div className="text-4xl">{collection.thumbnail}</div>
                 <div className="flex-1 min-w-0">

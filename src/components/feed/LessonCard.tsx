@@ -257,7 +257,7 @@ export const LessonCard = ({
 
       {/* Code snippet overlay */}
       {showCode && lesson.codeSnippet && (
-        <div className="absolute bottom-0 left-0 right-0 bg-card border-t border-border animate-slide-up max-h-[50%] overflow-y-auto overscroll-contain touch-pan-y ios-touch-scroll">
+        <div className="absolute bottom-0 left-0 right-0 bg-card border-t border-border animate-slide-up max-h-[70%] overflow-y-auto overscroll-contain touch-pan-y ios-touch-scroll">
           <div className="p-4">
             <div className="flex items-center justify-between mb-3">
               <h4 className="font-semibold">Code Example</h4>
