@@ -184,8 +184,14 @@ export const Profile = ({ onNavigateToSettings }: ProfileProps) => {
                     <Badge variant="secondary">{lesson.language}</Badge>
                   </div>
                 ))}
-                {savedLessons.length > 3 && (
-                  <button className="w-full p-3 text-center text-primary hover:bg-muted/50 rounded-lg transition-colors">
+                 {savedLessons.length > 3 && (
+                  <button 
+                    className="w-full p-3 text-center text-primary hover:bg-muted/50 rounded-lg transition-colors"
+                    onClick={() => {
+                      // Show all saved lessons
+                      alert("Showing all saved lessons...");
+                    }}
+                  >
                     See More ({savedLessons.length - 3} more)
                   </button>
                 )}
@@ -211,8 +217,14 @@ export const Profile = ({ onNavigateToSettings }: ProfileProps) => {
                     </Badge>
                   </div>
                 ))}
-                {learningHistory.length > 3 && (
-                  <button className="w-full p-3 text-center text-primary hover:bg-muted/50 rounded-lg transition-colors">
+                 {learningHistory.length > 3 && (
+                  <button 
+                    className="w-full p-3 text-center text-primary hover:bg-muted/50 rounded-lg transition-colors"
+                    onClick={() => {
+                      // Show all learning history
+                      alert("Showing full learning history...");
+                    }}
+                  >
                     See More ({learningHistory.length - 3} more)
                   </button>
                 )}
@@ -247,8 +259,14 @@ export const Profile = ({ onNavigateToSettings }: ProfileProps) => {
                     </div>
                   </div>
                 ))}
-                {achievements.length > 3 && (
-                  <button className="w-full p-3 text-center text-primary hover:bg-muted/50 rounded-lg transition-colors">
+                 {achievements.length > 3 && (
+                  <button 
+                    className="w-full p-3 text-center text-primary hover:bg-muted/50 rounded-lg transition-colors"
+                    onClick={() => {
+                      // Show all achievements
+                      alert("Showing all achievements...");
+                    }}
+                  >
                     See More ({achievements.length - 3} more)
                   </button>
                 )}

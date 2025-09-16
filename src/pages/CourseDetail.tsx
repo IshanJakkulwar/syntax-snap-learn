@@ -162,12 +162,12 @@ export const CourseDetail = ({ courseId, onBack, onStartCourse }: CourseDetailPr
         </div>
 
         {/* Course Hero */}
-        <div className="p-6">
-          <Card className="p-6 gradient-hero text-white">
-            <div className="flex items-start gap-6">
-              <div className="text-6xl">{course.thumbnail}</div>
-              <div className="flex-1">
-                <h1 className="text-3xl font-bold mb-2">{course.title}</h1>
+        <div className="p-4 md:p-6">
+          <Card className="p-4 md:p-6 gradient-hero text-white">
+            <div className="flex flex-col md:flex-row items-start gap-4 md:gap-6">
+              <div className="text-4xl md:text-6xl mx-auto md:mx-0">{course.thumbnail}</div>
+              <div className="flex-1 text-center md:text-left">
+                <h1 className="text-2xl md:text-3xl font-bold mb-2">{course.title}</h1>
                 <p className="text-white/90 mb-4">
                   {showFullDescription 
                     ? course.description 
@@ -180,7 +180,7 @@ export const CourseDetail = ({ courseId, onBack, onStartCourse }: CourseDetailPr
                     {showFullDescription ? "Show less" : "See more"}
                   </button>
                 </p>
-                <div className="flex items-center gap-4 text-sm text-white/80 mb-4">
+                <div className="flex flex-wrap justify-center md:justify-start items-center gap-3 md:gap-4 text-sm text-white/80 mb-4">
                   <div className="flex items-center gap-1">
                     <Clock className="w-4 h-4" />
                     {course.estimatedTime}
@@ -214,15 +214,15 @@ export const CourseDetail = ({ courseId, onBack, onStartCourse }: CourseDetailPr
               </div>
             )}
 
-            <div className="flex gap-3 mt-6">
+            <div className="flex flex-col sm:flex-row gap-3 mt-6">
               <Button 
                 onClick={onStartCourse}
-                className="bg-white text-primary hover:bg-white/90"
+                className="bg-white text-primary hover:bg-white/90 w-full sm:w-auto"
               >
                 <Play className="w-4 h-4 mr-2" />
                 {progressPercentage > 0 ? "Continue Learning" : "Start Course"}
               </Button>
-              <Button variant="outline" className="border-white/20 text-white hover:bg-white/10">
+              <Button variant="outline" className="border-white/20 text-white hover:bg-white/10 w-full sm:w-auto">
                 <BookOpen className="w-4 h-4 mr-2" />
                 Add to My Courses
               </Button>
@@ -231,9 +231,9 @@ export const CourseDetail = ({ courseId, onBack, onStartCourse }: CourseDetailPr
         </div>
 
         {/* Course Content */}
-        <div className="p-6 grid md:grid-cols-3 gap-6">
+        <div className="p-4 md:p-6 grid lg:grid-cols-3 gap-6">
           {/* Main Content */}
-          <div className="md:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-6">
             {/* Skills You'll Learn */}
             <Card className="p-6">
               <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">

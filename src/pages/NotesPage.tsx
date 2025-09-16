@@ -165,14 +165,40 @@ export const NotesPage = ({ lessonId, onBack }: NotesPageProps) => {
                 variant="ghost"
                 size="sm"
                 onClick={() => setSavedNotes(!savedNotes)}
-                className={savedNotes ? "text-yellow-500" : ""}
+                className={savedNotes ? "text-warning" : ""}
               >
                 <Bookmark className={`w-4 h-4 ${savedNotes ? "fill-current" : ""}`} />
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => {
+                  navigator.share({
+                    title: notes.title,
+                    text: notes.overview,
+                    url: window.location.href
+                  }).catch(() => {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert("Link copied to clipboard!");
+                  });
+                }}
+              >
                 <Share2 className="w-4 h-4" />
               </Button>
-              <Button variant="ghost" size="sm">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                onClick={() => {
+                  const content = `${notes.title}\n\n${notes.overview}\n\n${notes.sections.map(s => `${s.title}\n${s.content}\n${s.codeExample || ''}`).join('\n\n')}\n\nKey Points:\n${notes.keyPoints.map(p => `• ${p}`).join('\n')}\n\nExercises:\n${notes.exercises.map((e, i) => `${i + 1}. ${e}`).join('\n')}`;
+                  const blob = new Blob([content], { type: 'text/plain' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `${notes.title.replace(/\s+/g, '_')}_notes.txt`;
+                  a.click();
+                  URL.revokeObjectURL(url);
+                }}
+              >
                 <Download className="w-4 h-4" />
               </Button>
             </div>

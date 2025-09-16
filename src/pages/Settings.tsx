@@ -6,14 +6,15 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { useTheme } from "next-themes";
 
 interface SettingsProps {
   onBack: () => void;
 }
 
 export const Settings = ({ onBack }: SettingsProps) => {
+  const { theme, setTheme } = useTheme();
   const [notifications, setNotifications] = useState(true);
-  const [darkMode, setDarkMode] = useState(false);
   const [autoplay, setAutoplay] = useState(true);
   const [dataUsage, setDataUsage] = useState("wifi");
 
@@ -116,7 +117,7 @@ export const Settings = ({ onBack }: SettingsProps) => {
         {/* Appearance */}
         <Card className="p-6">
           <h2 className="text-lg font-bold mb-4 flex items-center gap-2">
-            {darkMode ? <Moon className="w-5 h-5 text-primary" /> : <Sun className="w-5 h-5 text-primary" />}
+            {theme === "dark" ? <Moon className="w-5 h-5 text-primary" /> : <Sun className="w-5 h-5 text-primary" />}
             Appearance
           </h2>
           <div className="space-y-4">
@@ -126,8 +127,8 @@ export const Settings = ({ onBack }: SettingsProps) => {
                 <p className="text-sm text-muted-foreground">Switch between light and dark themes</p>
               </div>
               <Switch
-                checked={darkMode}
-                onCheckedChange={setDarkMode}
+                checked={theme === "dark"}
+                onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
               />
             </div>
             <div className="flex items-center justify-between">
