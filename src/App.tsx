@@ -31,15 +31,10 @@ const App = () => {
     setHasCompletedOnboarding(true);
   };
 
-  if (!hasCompletedOnboarding) {
-    return (
-      <QueryClientProvider client={queryClient}>
-        <TooltipProvider>
-          <OnboardingFlow onComplete={handleOnboardingComplete} />
-        </TooltipProvider>
-      </QueryClientProvider>
-    );
-  }
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    setCurrentView({ page: tab });
+  };
 
   const renderContent = () => {
     switch (currentView.page) {
@@ -95,10 +90,16 @@ const App = () => {
     }
   };
 
-  const handleTabChange = (tab: string) => {
-    setActiveTab(tab);
-    setCurrentView({ page: tab });
-  };
+
+  if (!hasCompletedOnboarding) {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <OnboardingFlow onComplete={handleOnboardingComplete} />
+        </TooltipProvider>
+      </QueryClientProvider>
+    );
+  }
 
   return (
     <QueryClientProvider client={queryClient}>
