@@ -15,6 +15,7 @@ import { Settings } from "@/pages/Settings";
 import { MyCourses } from "@/pages/MyCourses";
 import { CourseDetail } from "@/pages/CourseDetail";
 import { VideoCoursePage } from "@/pages/VideoCoursePage";
+import { LessonViewer } from "@/pages/LessonViewer";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const queryClient = new QueryClient();
@@ -64,12 +65,30 @@ const App = () => {
           courseId={currentView.data?.courseId} 
           onBack={() => setCurrentView({ page: "my-courses" })}
           onStartCourse={() => setCurrentView({ page: "home" })}
+          onViewLesson={(lessonId: number, type: 'video' | 'notes') => 
+            setCurrentView({ 
+              page: "lesson-viewer", 
+              data: { courseId: currentView.data?.courseId, lessonId: String(lessonId), returnTo: "course-detail" } 
+            })
+          }
         />;
       case "video-course":
         return <VideoCoursePage 
           courseId={currentView.data?.courseId} 
           onBack={() => setCurrentView({ page: "explore" })}
           onStartVideo={() => setCurrentView({ page: "home" })}
+          onViewLesson={(lessonId: number, type: 'video' | 'notes') => 
+            setCurrentView({ 
+              page: "lesson-viewer", 
+              data: { courseId: currentView.data?.courseId, lessonId: String(lessonId), returnTo: "video-course" } 
+            })
+          }
+        />;
+      case "lesson-viewer":
+        return <LessonViewer 
+          courseId={currentView.data?.courseId}
+          lessonId={currentView.data?.lessonId}
+          onBack={() => setCurrentView({ page: currentView.data?.returnTo || "video-course", data: { courseId: currentView.data?.courseId } })}
         />;
       default:
         return <Home onNavigateToNotes={(lessonId: string) => setCurrentView({ page: "notes", data: { lessonId } })} />;

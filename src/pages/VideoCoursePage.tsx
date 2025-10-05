@@ -10,6 +10,7 @@ interface VideoCoursePageProps {
   courseId: string;
   onBack: () => void;
   onStartVideo?: () => void;
+  onViewLesson?: (lessonId: number, type: 'video' | 'notes') => void;
 }
 
 const videoCourseData = {
