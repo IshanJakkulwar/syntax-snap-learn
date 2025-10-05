@@ -1,23 +1,138 @@
 import { useState } from "react";
-import { ArrowLeft, Play, Clock, Users, Star, BookOpen, Trophy, CheckCircle2, FileText } from "lucide-react";
+import { ArrowLeft, Play, Clock, Users, Star, BookOpen, Trophy, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import { coursesData } from "@/data/coursesData";
 
 interface CourseDetailProps {
   courseId: string;
   onBack: () => void;
   onStartCourse?: () => void;
-  onViewLesson?: (lessonId: number, type: 'video' | 'notes') => void;
 }
 
+const courseData = {
+  "1": {
+    title: "Python Fundamentals",
+    description: "Master the basics of Python programming with hands-on exercises and real-world projects. This comprehensive course covers variables, data types, control structures, functions, and object-oriented programming concepts.",
+    instructor: "Dr. Sarah Chen",
+    instructorBio: "Senior Software Engineer at Google with 8+ years in Python development",
+    level: "Beginner",
+    estimatedTime: "45 min",
+    lessons: 12,
+    students: 15420,
+    rating: 4.8,
+    thumbnail: "🐍",
+    skills: ["Variables & Data Types", "Control Flow", "Functions", "OOP Basics", "File Handling"],
+    curriculum: [
+      { id: 1, title: "Introduction to Python", duration: "3 min", completed: true },
+      { id: 2, title: "Variables and Data Types", duration: "4 min", completed: true },
+      { id: 3, title: "Working with Strings", duration: "3 min", completed: false },
+      { id: 4, title: "Lists and Dictionaries", duration: "5 min", completed: false },
+      { id: 5, title: "Control Flow - If Statements", duration: "4 min", completed: false },
+      { id: 6, title: "Loops in Python", duration: "5 min", completed: false },
+      { id: 7, title: "Functions Basics", duration: "4 min", completed: false },
+      { id: 8, title: "Advanced Functions", duration: "3 min", completed: false },
+      { id: 9, title: "Classes and Objects", duration: "6 min", completed: false },
+      { id: 10, title: "File Operations", duration: "4 min", completed: false },
+      { id: 11, title: "Error Handling", duration: "3 min", completed: false },
+      { id: 12, title: "Final Project", duration: "6 min", completed: false }
+    ]
+  },
+  "2": {
+    title: "JavaScript ES6+",
+    description: "Dive deep into modern JavaScript features and best practices. Learn ES6+ syntax, async programming, and advanced concepts that every JavaScript developer should know.",
+    instructor: "Alex Rodriguez",
+    instructorBio: "Full-stack developer and JavaScript evangelist with 6+ years experience",
+    level: "Intermediate",
+    estimatedTime: "30 min",
+    lessons: 8,
+    students: 12890,
+    rating: 4.7,
+    thumbnail: "⚡",
+    skills: ["ES6 Syntax", "Arrow Functions", "Destructuring", "Async/Await", "Modules"],
+    curriculum: [
+      { id: 1, title: "ES6 Overview", duration: "3 min", completed: false },
+      { id: 2, title: "Arrow Functions", duration: "4 min", completed: false },
+      { id: 3, title: "Destructuring", duration: "4 min", completed: false },
+      { id: 4, title: "Template Literals", duration: "3 min", completed: false },
+      { id: 5, title: "Promises and Async/Await", duration: "6 min", completed: false },
+      { id: 6, title: "Modules", duration: "4 min", completed: false },
+      { id: 7, title: "Classes", duration: "3 min", completed: false },
+      { id: 8, title: "Advanced Patterns", duration: "3 min", completed: false }
+    ]
+  },
+  "3": {
+    title: "React Hooks Deep Dive",
+    description: "Master all React hooks with practical examples and advanced patterns. From useState to custom hooks, become a React hooks expert.",
+    instructor: "Emma Thompson",
+    instructorBio: "React core team contributor and frontend architect",
+    level: "Advanced",
+    estimatedTime: "60 min",
+    lessons: 15,
+    students: 8750,
+    rating: 4.9,
+    thumbnail: "⚛️",
+    skills: ["useState", "useEffect", "useContext", "Custom Hooks", "Performance Optimization"],
+    curriculum: [
+      { id: 1, title: "Introduction to Hooks", duration: "4 min", completed: false },
+      { id: 2, title: "useState Deep Dive", duration: "5 min", completed: false },
+      { id: 3, title: "useEffect Mastery", duration: "6 min", completed: false },
+      { id: 4, title: "useContext", duration: "4 min", completed: false },
+      { id: 5, title: "useReducer", duration: "5 min", completed: false },
+      { id: 6, title: "useMemo", duration: "3 min", completed: false },
+      { id: 7, title: "useCallback", duration: "3 min", completed: false },
+      { id: 8, title: "useRef", duration: "3 min", completed: false },
+      { id: 9, title: "Custom Hooks Basics", duration: "4 min", completed: false },
+      { id: 10, title: "Advanced Custom Hooks", duration: "5 min", completed: false },
+      { id: 11, title: "Hook Patterns", duration: "4 min", completed: false },
+      { id: 12, title: "Performance Optimization", duration: "5 min", completed: false },
+      { id: 13, title: "Testing Hooks", duration: "4 min", completed: false },
+      { id: 14, title: "Hooks Best Practices", duration: "3 min", completed: false },
+      { id: 15, title: "Final Project", duration: "7 min", completed: false }
+    ]
+  },
+  "4": {
+    title: "Data Structures & Algorithms",
+    description: "Essential DSA concepts for technical interviews and competitive programming. Master arrays, linked lists, trees, graphs, and dynamic programming.",
+    instructor: "Prof. David Kim",
+    instructorBio: "Computer Science professor and competitive programming coach",
+    level: "Intermediate",
+    estimatedTime: "90 min",
+    lessons: 20,
+    students: 22100,
+    rating: 4.6,
+    thumbnail: "🔗",
+    skills: ["Arrays", "Linked Lists", "Trees", "Graphs", "Dynamic Programming"],
+    curriculum: [
+      { id: 1, title: "Big O Notation", duration: "5 min", completed: false },
+      { id: 2, title: "Arrays and Strings", duration: "4 min", completed: false },
+      { id: 3, title: "Two Pointers Technique", duration: "4 min", completed: false },
+      { id: 4, title: "Sliding Window", duration: "5 min", completed: false },
+      { id: 5, title: "Linked Lists", duration: "5 min", completed: false },
+      { id: 6, title: "Stacks and Queues", duration: "4 min", completed: false },
+      { id: 7, title: "Binary Trees", duration: "5 min", completed: false },
+      { id: 8, title: "Binary Search Trees", duration: "4 min", completed: false },
+      { id: 9, title: "Tree Traversals", duration: "4 min", completed: false },
+      { id: 10, title: "Heaps", duration: "4 min", completed: false },
+      { id: 11, title: "Graphs Introduction", duration: "5 min", completed: false },
+      { id: 12, title: "BFS and DFS", duration: "5 min", completed: false },
+      { id: 13, title: "Dynamic Programming Basics", duration: "6 min", completed: false },
+      { id: 14, title: "DP Patterns", duration: "5 min", completed: false },
+      { id: 15, title: "Recursion and Backtracking", duration: "5 min", completed: false },
+      { id: 16, title: "Sorting Algorithms", duration: "4 min", completed: false },
+      { id: 17, title: "Binary Search", duration: "4 min", completed: false },
+      { id: 18, title: "Hash Tables", duration: "4 min", completed: false },
+      { id: 19, title: "Interview Strategies", duration: "4 min", completed: false },
+      { id: 20, title: "Practice Problems", duration: "8 min", completed: false }
+    ]
+  }
+};
 
-export const CourseDetail = ({ courseId, onBack, onStartCourse, onViewLesson }: CourseDetailProps) => {
+export const CourseDetail = ({ courseId, onBack, onStartCourse }: CourseDetailProps) => {
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const course = coursesData[courseId as keyof typeof coursesData];
+  const course = courseData[courseId as keyof typeof courseData];
 
   if (!course) {
     return (
@@ -143,10 +258,9 @@ export const CourseDetail = ({ courseId, onBack, onStartCourse, onViewLesson }: 
                   <div 
                     key={lesson.id}
                     className={cn(
-                      "flex items-center justify-between p-3 rounded-lg border transition-colors hover:bg-muted/50 cursor-pointer",
+                      "flex items-center justify-between p-3 rounded-lg border transition-colors hover:bg-muted/50",
                       lesson.completed && "bg-success/10 border-success/20"
                     )}
-                    onClick={() => onViewLesson?.(lesson.id, lesson.type)}
                   >
                     <div className="flex items-center gap-3">
                       <div className={cn(
@@ -162,19 +276,12 @@ export const CourseDetail = ({ courseId, onBack, onStartCourse, onViewLesson }: 
                         )}
                       </div>
                       <div>
-                        <div className="flex items-center gap-2">
-                          <p className="font-medium text-sm">{lesson.title}</p>
-                          {lesson.type === 'video' ? (
-                            <Play className="w-3 h-3 text-muted-foreground" />
-                          ) : (
-                            <FileText className="w-3 h-3 text-muted-foreground" />
-                          )}
-                        </div>
-                        <p className="text-xs text-muted-foreground">{lesson.duration} • {lesson.type === 'video' ? 'Video' : 'Notes'}</p>
+                        <p className="font-medium text-sm">{lesson.title}</p>
+                        <p className="text-xs text-muted-foreground">{lesson.duration}</p>
                       </div>
                     </div>
                     <Button variant="ghost" size="sm">
-                      {lesson.type === 'video' ? <Play className="w-4 h-4" /> : <FileText className="w-4 h-4" />}
+                      <Play className="w-4 h-4" />
                     </Button>
                   </div>
                 ))}
