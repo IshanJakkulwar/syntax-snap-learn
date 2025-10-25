@@ -53,7 +53,7 @@ export const LessonCard = ({
   };
 
   return (
-    <Card className="relative w-full h-screen max-w-md mx-auto bg-card overflow-hidden snap-item border-none shadow-none">
+    <Card className="relative w-full h-full bg-card overflow-hidden border-none shadow-none">
       {/* Progress bar */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-border z-20">
         <div className="h-full bg-primary w-0 transition-all duration-300 ease-out"></div>
