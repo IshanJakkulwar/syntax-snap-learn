@@ -129,7 +129,7 @@ export const LessonCard = ({
         </div>
 
         {/* Caption area - bottom overlay on video */}
-        <div className="absolute bottom-16 left-0 right-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent p-4 pb-6 md:pb-4">
+        <div className="absolute bottom-24 left-0 right-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent p-4 pb-6 md:pb-4">
           <div>
             <h2 className="text-white text-xl lg:text-2xl font-bold mb-2 drop-shadow-lg">{lesson.title}</h2>
             <p className="text-white/90 text-sm leading-relaxed drop-shadow-md">{lesson.caption}</p>
