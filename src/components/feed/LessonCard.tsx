@@ -128,12 +128,12 @@ export const LessonCard = ({
           )}
         </div>
 
-        {/* Caption area - bottom for all devices */}
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4 pb-20 md:pb-16">
+        {/* Caption area - bottom overlay on video */}
+        <div className="absolute bottom-16 left-0 right-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent p-4 pb-6 md:pb-4">
           <div>
-            <h2 className="text-white text-xl lg:text-2xl font-bold mb-2">{lesson.title}</h2>
-            <p className="text-white text-sm leading-relaxed">{lesson.caption}</p>
-            <p className="text-white/70 text-xs mt-1">{lesson.duration}</p>
+            <h2 className="text-white text-xl lg:text-2xl font-bold mb-2 drop-shadow-lg">{lesson.title}</h2>
+            <p className="text-white/90 text-sm leading-relaxed drop-shadow-md">{lesson.caption}</p>
+            <p className="text-white/70 text-xs mt-1 drop-shadow-md">{lesson.duration}</p>
             
           </div>
         </div>
