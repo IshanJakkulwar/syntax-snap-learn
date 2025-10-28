@@ -12,7 +12,7 @@ const topics = [
 ];
 
 const levels = ["Beginner", "Intermediate", "Advanced"];
-const durations = ["Short (<20s)", "Medium (20-45s)", "Long (45s+)"];
+const durations = ["Quick (<2 min)", "Standard (2-5 min)", "Deep Dive (5+ min)"];
 
 const collections = [
   {
@@ -219,7 +219,7 @@ export const Explore = ({ onNavigateToMyCourses, onNavigateToCourse }: ExplorePr
                       {collection.level}
                     </Badge>
                     <span>•</span>
-                    <span>{collection.itemCount} lessons</span>
+                    <span>{collection.itemCount} bite-sized lessons</span>
                     <span>•</span>
                     <span>{collection.estimatedTime}</span>
                   </div>

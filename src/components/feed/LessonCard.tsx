@@ -80,12 +80,15 @@ export const LessonCard = ({
               <p className="text-muted-foreground text-lg leading-relaxed mb-6">
                 {lesson.caption}
               </p>
-              <div className="space-y-3">
+              <div className="space-y-4">
                 <p className="text-foreground">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  In this lesson, we'll explore the fundamental concepts and practical applications. You'll learn step-by-step how to implement this technique in your own projects.
                 </p>
                 <p className="text-muted-foreground">
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                  We'll cover best practices, common pitfalls to avoid, and real-world examples that demonstrate the power of this approach.
+                </p>
+                <p className="text-foreground">
+                  By the end of this bite-sized lesson, you'll have a solid understanding and be ready to apply these concepts immediately.
                 </p>
               </div>
             </div>
@@ -110,10 +113,6 @@ export const LessonCard = ({
           </div>
         </div>
 
-        {/* Bottom info */}
-        <div className="absolute bottom-24 left-4 right-4 z-10">
-          <p className="text-muted-foreground text-sm">{lesson.duration}</p>
-        </div>
 
         {/* Right side action buttons (mobile only) - centered vertically like TikTok */}
         <div className="absolute right-3 top-1/2 -translate-y-1/2 lg:hidden flex flex-col gap-4 z-20">
