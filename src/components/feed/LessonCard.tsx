@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, Bookmark, Share2, MoreHorizontal, Play, Pause, Volume2, VolumeX } from "lucide-react";
+import { Heart, Bookmark, Share2 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -53,57 +53,49 @@ export const LessonCard = ({
   };
 
   return (
-    <Card className="relative w-full h-screen lg:max-w-none max-w-md mx-auto bg-card overflow-hidden snap-item border-none shadow-none">
+    <Card className="relative w-full h-screen max-w-md lg:max-w-none mx-auto bg-card overflow-hidden snap-item border-none shadow-none">
       {/* Progress bar */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-border z-20">
         <div className="h-full bg-primary w-0 transition-all duration-300 ease-out"></div>
       </div>
 
-      {/* Video/Content Area */}
+      {/* Card Content Area */}
       <div className="relative h-full">
-        {/* Thumbnail/Video placeholder */}
-        <div className="absolute inset-0 bg-gradient-hero">
-          <div className="flex items-center justify-center h-full">
-            <div className="text-center text-primary-foreground p-6 lg:hidden">
-              <div className="text-6xl mb-4">
+        {/* Main card content */}
+        <div className="absolute inset-0 bg-gradient-to-br from-card via-card to-muted/30 flex items-center justify-center p-8">
+          <div className="max-w-2xl w-full">
+            {/* Card header with icon */}
+            <div className="text-center mb-8">
+              <div className="text-7xl mb-6">
                 {lesson.language === "Python" && "🐍"}
                 {lesson.language === "JavaScript" && "⚡"}
                 {lesson.language === "C++" && "⚙️"}
                 {lesson.language === "React" && "⚛️"}
               </div>
-              <h2 className="text-2xl font-bold mb-2">{lesson.title}</h2>
-              <p className="text-lg opacity-90">{lesson.topic}</p>
             </div>
-            {/* Desktop centered icon only */}
-            <div className="hidden lg:block text-center text-primary-foreground">
-              <div className="text-8xl">
-                {lesson.language === "Python" && "🐍"}
-                {lesson.language === "JavaScript" && "⚡"}
-                {lesson.language === "C++" && "⚙️"}
-                {lesson.language === "React" && "⚛️"}
+            
+            {/* Card body with placeholder content */}
+            <div className="bg-background/50 backdrop-blur-sm rounded-2xl p-8 border border-border shadow-lg">
+              <h3 className="text-2xl font-bold text-foreground mb-4">{lesson.title}</h3>
+              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
+                {lesson.caption}
+              </p>
+              <div className="space-y-3">
+                <p className="text-foreground">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+                <p className="text-muted-foreground">
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                </p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Play/Pause overlay */}
-        {onPlayToggle && (
-          <button
-            onClick={onPlayToggle}
-            className="absolute inset-0 flex items-center justify-center bg-black/20 transition-opacity duration-200 hover:bg-black/30"
-          >
-            {isPlaying ? (
-              <Pause className="w-16 h-16 text-white drop-shadow-lg" />
-            ) : (
-              <Play className="w-16 h-16 text-white drop-shadow-lg" />
-            )}
-          </button>
-        )}
-
-        {/* Top info overlay */}
+        {/* Top info badges */}
         <div className="absolute top-6 left-4 right-4 flex items-start justify-between z-10">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="secondary" className="bg-black/20 text-white border-white/20">
+            <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
               {lesson.creator}
             </Badge>
             <Badge 
@@ -112,30 +104,15 @@ export const LessonCard = ({
             >
               {lesson.level}
             </Badge>
-            <Badge variant="secondary" className="bg-black/20 text-white border-white/20">
+            <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
               {lesson.language}
             </Badge>
           </div>
-          {onMuteToggle && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={onMuteToggle}
-              className="bg-black/20 text-white hover:bg-black/30 border-white/20"
-            >
-              {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-            </Button>
-          )}
         </div>
 
-        {/* Caption area - bottom overlay on video */}
-        <div className="absolute bottom-24 left-0 right-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent p-4 pb-6 md:pb-4">
-          <div>
-            <h2 className="text-white text-xl lg:text-2xl font-bold mb-2 drop-shadow-lg">{lesson.title}</h2>
-            <p className="text-white/90 text-sm leading-relaxed drop-shadow-md">{lesson.caption}</p>
-            <p className="text-white/70 text-xs mt-1 drop-shadow-md">{lesson.duration}</p>
-            
-          </div>
+        {/* Bottom info */}
+        <div className="absolute bottom-24 left-4 right-4 z-10">
+          <p className="text-muted-foreground text-sm">{lesson.duration}</p>
         </div>
 
         {/* Right side action buttons (mobile only) - centered vertically like TikTok */}
@@ -145,8 +122,8 @@ export const LessonCard = ({
             size="sm"
             onClick={onLike}
             className={cn(
-              "w-14 h-14 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/40 transition-all duration-150 flex-col border-0",
-              lesson.isLiked ? "text-red-500 bg-red-500/20" : "text-white"
+              "w-14 h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 flex-col border-0",
+              lesson.isLiked ? "text-destructive" : "text-foreground"
             )}
           >
             <Heart className={cn("w-7 h-7", lesson.isLiked && "fill-current")} />
@@ -158,8 +135,8 @@ export const LessonCard = ({
             size="sm"
             onClick={onSave}
             className={cn(
-              "w-14 h-14 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/40 transition-all duration-150 border-0",
-              lesson.isSaved ? "text-yellow-400 bg-yellow-400/20" : "text-white"
+              "w-14 h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
+              lesson.isSaved ? "text-warning" : "text-foreground"
             )}
           >
             <Bookmark className={cn("w-7 h-7", lesson.isSaved && "fill-current")} />
@@ -170,8 +147,8 @@ export const LessonCard = ({
             size="sm"
             onClick={() => setShowCode(!showCode)}
             className={cn(
-              "w-14 h-14 rounded-full bg-black/30 backdrop-blur-sm hover:bg-black/40 transition-all duration-150 border-0",
-              showCode ? "text-blue-400 bg-blue-400/20" : "text-white"
+              "w-14 h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
+              showCode ? "text-primary" : "text-foreground"
             )}
           >
             <span className="text-lg font-bold">{"</>"}</span>
@@ -181,7 +158,7 @@ export const LessonCard = ({
             variant="ghost"
             size="sm"
             onClick={onShare}
-            className="w-14 h-14 rounded-full bg-black/30 backdrop-blur-sm text-white hover:bg-black/40 transition-all duration-150 border-0"
+            className="w-14 h-14 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0"
           >
             <Share2 className="w-7 h-7" />
           </Button>
@@ -190,7 +167,7 @@ export const LessonCard = ({
             variant="ghost"
             size="sm"
             onClick={onSwipeRight}
-            className="w-14 h-14 rounded-full bg-primary/30 backdrop-blur-sm text-white hover:bg-primary/40 transition-all duration-150 border-0"
+            className="w-14 h-14 rounded-full bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transition-all duration-150 border-0"
           >
             <span className="text-xl">📝</span>
           </Button>
@@ -203,8 +180,8 @@ export const LessonCard = ({
             size="sm"
             onClick={() => setShowCode(!showCode)}
             className={cn(
-              "w-12 h-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/30 transition-all duration-150 text-white border-0",
-              showCode ? "text-blue-400 bg-blue-400/20" : ""
+              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
+              showCode ? "text-primary" : "text-foreground"
             )}
           >
             <span className="text-lg font-bold">{"</>"}</span>
@@ -215,8 +192,8 @@ export const LessonCard = ({
             size="sm"
             onClick={onLike}
             className={cn(
-              "w-12 h-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/30 transition-all duration-150 border-0 flex-col",
-              lesson.isLiked ? "text-red-500 bg-red-500/20" : "text-white"
+              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 flex-col",
+              lesson.isLiked ? "text-destructive" : "text-foreground"
             )}
           >
             <Heart className={cn("w-6 h-6", lesson.isLiked && "fill-current")} />
@@ -228,8 +205,8 @@ export const LessonCard = ({
             size="sm"
             onClick={onSave}
             className={cn(
-              "w-12 h-12 rounded-full bg-black/20 backdrop-blur-sm hover:bg-black/30 transition-all duration-150 border-0",
-              lesson.isSaved ? "text-yellow-400 bg-yellow-400/20" : "text-white"
+              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
+              lesson.isSaved ? "text-warning" : "text-foreground"
             )}
           >
             <Bookmark className={cn("w-6 h-6", lesson.isSaved && "fill-current")} />
@@ -239,7 +216,7 @@ export const LessonCard = ({
             variant="ghost"
             size="sm"
             onClick={onShare}
-            className="w-12 h-12 rounded-full bg-black/20 backdrop-blur-sm text-white hover:bg-black/30 transition-all duration-150 border-0"
+            className="w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0"
           >
             <Share2 className="w-6 h-6" />
           </Button>
@@ -248,7 +225,7 @@ export const LessonCard = ({
             variant="ghost"
             size="sm"
             onClick={onSwipeRight}
-            className="w-12 h-12 rounded-full bg-primary/20 backdrop-blur-sm text-white hover:bg-primary/30 transition-all duration-150 border-0"
+            className="w-12 h-12 rounded-full bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transition-all duration-150 border-0"
           >
             <span className="text-xl">📝</span>
           </Button>
