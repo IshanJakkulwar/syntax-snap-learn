@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, Bookmark, Share2 } from "lucide-react";
+import { Heart, Bookmark, Share2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -45,6 +45,30 @@ export const LessonCard = ({
   onSwipeRight 
 }: LessonCardProps) => {
   const [showCode, setShowCode] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  const slides = [
+    {
+      title: lesson.title,
+      content: lesson.caption
+    },
+    {
+      title: "How It Works",
+      content: "In this lesson, we'll explore the fundamental concepts and practical applications. You'll learn step-by-step how to implement this technique in your own projects."
+    },
+    {
+      title: "Best Practices",
+      content: "We'll cover best practices, common pitfalls to avoid, and real-world examples that demonstrate the power of this approach. By the end, you'll have a solid understanding and be ready to apply these concepts immediately."
+    }
+  ];
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % slides.length);
+  };
+
+  const previousSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
 
   const levelColors = {
     Beginner: "bg-success/10 text-success border-success/20",
@@ -53,10 +77,13 @@ export const LessonCard = ({
   };
 
   return (
-    <Card className="relative w-full h-screen max-w-md lg:max-w-none mx-auto bg-card overflow-hidden snap-item border-none shadow-none">
+    <Card className="relative w-full h-screen max-w-md mx-auto bg-card overflow-hidden snap-item border-none shadow-none">
       {/* Progress bar */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-border z-20">
-        <div className="h-full bg-primary w-0 transition-all duration-300 ease-out"></div>
+        <div 
+          className="h-full bg-primary transition-all duration-300 ease-out"
+          style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
+        ></div>
       </div>
 
       {/* Card Content Area */}
@@ -74,23 +101,40 @@ export const LessonCard = ({
               </div>
             </div>
             
-            {/* Card body with placeholder content */}
-            <div className="bg-background/50 backdrop-blur-sm rounded-2xl p-8 border border-border shadow-lg">
-              <h3 className="text-2xl font-bold text-foreground mb-4">{lesson.title}</h3>
-              <p className="text-muted-foreground text-lg leading-relaxed mb-6">
-                {lesson.caption}
+            {/* Card body with slide content */}
+            <div className="bg-background/50 backdrop-blur-sm rounded-2xl p-8 border border-border shadow-lg max-w-2xl mx-auto">
+              <h3 className="text-2xl font-bold text-foreground mb-4">{slides[currentSlide].title}</h3>
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                {slides[currentSlide].content}
               </p>
-              <div className="space-y-4">
-                <p className="text-foreground">
-                  In this lesson, we'll explore the fundamental concepts and practical applications. You'll learn step-by-step how to implement this technique in your own projects.
-                </p>
-                <p className="text-muted-foreground">
-                  We'll cover best practices, common pitfalls to avoid, and real-world examples that demonstrate the power of this approach.
-                </p>
-                <p className="text-foreground">
-                  By the end of this bite-sized lesson, you'll have a solid understanding and be ready to apply these concepts immediately.
-                </p>
-              </div>
+            </div>
+
+            {/* Navigation arrows */}
+            <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={previousSlide}
+                className={cn(
+                  "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 pointer-events-auto",
+                  currentSlide === 0 && "opacity-50 cursor-not-allowed"
+                )}
+                disabled={currentSlide === 0}
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={nextSlide}
+                className={cn(
+                  "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 pointer-events-auto",
+                  currentSlide === slides.length - 1 && "opacity-50 cursor-not-allowed"
+                )}
+                disabled={currentSlide === slides.length - 1}
+              >
+                <ChevronRight className="w-6 h-6" />
+              </Button>
             </div>
           </div>
         </div>
