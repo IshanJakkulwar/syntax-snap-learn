@@ -46,6 +46,8 @@ export const LessonCard = ({
 }: LessonCardProps) => {
   const [showCode, setShowCode] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [touchStart, setTouchStart] = useState(0);
+  const [touchEnd, setTouchEnd] = useState(0);
 
   const slides = [
     {
@@ -53,12 +55,12 @@ export const LessonCard = ({
       content: lesson.caption
     },
     {
-      title: "How It Works",
-      content: "In this lesson, we'll explore the fundamental concepts and practical applications. You'll learn step-by-step how to implement this technique in your own projects."
+      title: "Understanding the Fundamentals",
+      content: "This concept is foundational to modern development. It allows you to write cleaner, more maintainable code by separating concerns and creating reusable patterns. The key principle here is to break down complex problems into smaller, manageable pieces that work together seamlessly."
     },
     {
-      title: "Best Practices",
-      content: "We'll cover best practices, common pitfalls to avoid, and real-world examples that demonstrate the power of this approach. By the end, you'll have a solid understanding and be ready to apply these concepts immediately."
+      title: "Practical Implementation",
+      content: "When implementing this in real projects, start by identifying the core requirements. Use this pattern to handle edge cases effectively, and remember to validate your inputs. Common pitfalls include over-complicating the solution—keep it simple and focused on solving the immediate problem at hand."
     }
   ];
 
@@ -68,6 +70,33 @@ export const LessonCard = ({
 
   const previousSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+  };
+
+  // Swipe handlers for mobile
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const handleTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe && currentSlide < slides.length - 1) {
+      nextSlide();
+    }
+    if (isRightSwipe && currentSlide > 0) {
+      previousSlide();
+    }
+
+    setTouchStart(0);
+    setTouchEnd(0);
   };
 
   const levelColors = {
@@ -87,7 +116,12 @@ export const LessonCard = ({
       </div>
 
       {/* Card Content Area */}
-      <div className="relative h-full">
+      <div 
+        className="relative h-full"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
         {/* Main card content */}
         <div className="absolute inset-0 bg-gradient-to-br from-card via-card to-muted/30 flex items-center justify-center p-8">
           <div className="max-w-2xl w-full">
@@ -109,14 +143,14 @@ export const LessonCard = ({
               </p>
             </div>
 
-            {/* Navigation arrows */}
-            <div className="absolute left-4 right-4 top-1/2 -translate-y-1/2 flex justify-between pointer-events-none">
+            {/* Desktop navigation arrows - below card */}
+            <div className="hidden lg:flex absolute bottom-8 left-1/2 -translate-x-1/2 gap-4">
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={previousSlide}
                 className={cn(
-                  "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 pointer-events-auto",
+                  "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
                   currentSlide === 0 && "opacity-50 cursor-not-allowed"
                 )}
                 disabled={currentSlide === 0}
@@ -128,7 +162,7 @@ export const LessonCard = ({
                 size="sm"
                 onClick={nextSlide}
                 className={cn(
-                  "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 pointer-events-auto",
+                  "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
                   currentSlide === slides.length - 1 && "opacity-50 cursor-not-allowed"
                 )}
                 disabled={currentSlide === slides.length - 1}
