@@ -1,12 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Code2, Cpu, Sparkles, Users, Award, BookOpen } from "lucide-react";
-import { useState } from "react";
 
-const Index = () => {
-  const [activeSection, setActiveSection] = useState("home");
+interface IndexProps {
+  onGetStarted?: () => void;
+}
+
+const Index = ({ onGetStarted }: IndexProps) => {
 
   const handleGetStarted = () => {
-    window.location.href = "/app";
+    onGetStarted?.();
   };
 
   return (

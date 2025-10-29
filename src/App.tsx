@@ -36,7 +36,7 @@ const App = () => {
     return (
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <Index />
+          <Index onGetStarted={() => setCurrentView({ page: "app" })} />
         </TooltipProvider>
       </QueryClientProvider>
     );
