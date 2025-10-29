@@ -15,6 +15,7 @@ import { Settings } from "@/pages/Settings";
 import { MyCourses } from "@/pages/MyCourses";
 import { CourseDetail } from "@/pages/CourseDetail";
 import { VideoCoursePage } from "@/pages/VideoCoursePage";
+import Index from "@/pages/Index";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const queryClient = new QueryClient();
@@ -35,11 +36,7 @@ const App = () => {
     return (
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <div dangerouslySetInnerHTML={{ __html: `
-            <script>
-              window.location.href = '/';
-            </script>
-          ` }} />
+          <Index />
         </TooltipProvider>
       </QueryClientProvider>
     );
