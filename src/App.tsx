@@ -22,13 +22,28 @@ const queryClient = new QueryClient();
 const App = () => {
   const [activeTab, setActiveTab] = useState("home");
   const [hasCompletedOnboarding, setHasCompletedOnboarding] = useState(false);
-  const [currentView, setCurrentView] = useState<{ page: string; data?: any }>({ page: "home" });
+  const [currentView, setCurrentView] = useState<{ page: string; data?: any }>({ page: "landing" });
   const isMobile = useIsMobile();
 
   const handleOnboardingComplete = (data: any) => {
     console.log("Onboarding completed:", data);
     setHasCompletedOnboarding(true);
   };
+
+  // Show landing page before onboarding
+  if (currentView.page === "landing") {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <div dangerouslySetInnerHTML={{ __html: `
+            <script>
+              window.location.href = '/';
+            </script>
+          ` }} />
+        </TooltipProvider>
+      </QueryClientProvider>
+    );
+  }
 
   if (!hasCompletedOnboarding) {
     return (
