@@ -48,6 +48,7 @@ export const LessonCard = ({
   const [currentSlide, setCurrentSlide] = useState(0);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const slides = [
     {
@@ -65,11 +66,17 @@ export const LessonCard = ({
   ];
 
   const nextSlide = () => {
+    if (isTransitioning || currentSlide >= slides.length - 1) return;
+    setIsTransitioning(true);
     setCurrentSlide((prev) => (prev + 1) % slides.length);
+    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   const previousSlide = () => {
+    if (isTransitioning || currentSlide <= 0) return;
+    setIsTransitioning(true);
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
+    setTimeout(() => setIsTransitioning(false), 400);
   };
 
   // Swipe handlers for mobile
@@ -136,59 +143,67 @@ export const LessonCard = ({
             </div>
             
             {/* Card body with slide content */}
-            <div className="bg-background/50 backdrop-blur-sm rounded-2xl p-8 border border-border shadow-lg max-w-2xl mx-auto">
+            <div 
+              className="bg-background/50 backdrop-blur-sm rounded-2xl p-8 border border-border shadow-lg max-w-2xl mx-auto transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+              style={{
+                transform: isTransitioning ? 'scale(0.98)' : 'scale(1)',
+                opacity: isTransitioning ? 0.7 : 1
+              }}
+            >
               <h3 className="text-2xl font-bold text-foreground mb-4">{slides[currentSlide].title}</h3>
               <p className="text-muted-foreground text-lg leading-relaxed">
                 {slides[currentSlide].content}
               </p>
             </div>
-
-            {/* Desktop navigation arrows - below card */}
-            <div className="hidden lg:flex absolute bottom-8 left-1/2 -translate-x-1/2 gap-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={previousSlide}
-                className={cn(
-                  "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
-                  currentSlide === 0 && "opacity-50 cursor-not-allowed"
-                )}
-                disabled={currentSlide === 0}
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={nextSlide}
-                className={cn(
-                  "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
-                  currentSlide === slides.length - 1 && "opacity-50 cursor-not-allowed"
-                )}
-                disabled={currentSlide === slides.length - 1}
-              >
-                <ChevronRight className="w-6 h-6" />
-              </Button>
-            </div>
           </div>
         </div>
 
         {/* Top info badges */}
-        <div className="absolute top-6 left-4 right-4 flex items-start justify-between z-10">
+        <div className="absolute top-6 left-4 right-4 flex items-start justify-between z-30">
           <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
+            <Badge variant="secondary" className="bg-background/90 backdrop-blur-md shadow-sm">
               {lesson.creator}
             </Badge>
             <Badge 
               variant="outline" 
-              className={cn("border text-xs", levelColors[lesson.level])}
+              className={cn("border text-xs backdrop-blur-md shadow-sm", levelColors[lesson.level])}
             >
               {lesson.level}
             </Badge>
-            <Badge variant="secondary" className="bg-background/80 backdrop-blur-sm">
+            <Badge variant="secondary" className="bg-background/90 backdrop-blur-md shadow-sm">
               {lesson.language}
             </Badge>
           </div>
+        </div>
+
+        {/* Desktop navigation arrows - left and right sides */}
+        <div className="hidden lg:block absolute left-4 top-1/2 -translate-y-1/2 z-10">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={previousSlide}
+            className={cn(
+              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
+              currentSlide === 0 && "opacity-30 cursor-not-allowed"
+            )}
+            disabled={currentSlide === 0}
+          >
+            <ChevronLeft className="w-6 h-6" />
+          </Button>
+        </div>
+        <div className="hidden lg:block absolute right-20 top-1/2 -translate-y-1/2 z-10">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={nextSlide}
+            className={cn(
+              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
+              currentSlide === slides.length - 1 && "opacity-30 cursor-not-allowed"
+            )}
+            disabled={currentSlide === slides.length - 1}
+          >
+            <ChevronRight className="w-6 h-6" />
+          </Button>
         </div>
 
 
