@@ -3,9 +3,11 @@ import { ArrowLeft, Code2, Cpu, Sparkles, Calendar, Users, Clock, Award } from "
 
 interface WorkshopsProps {
   onBack?: () => void;
+  onRegister?: () => void;
+  onSchedule?: () => void;
 }
 
-const Workshops = ({ onBack }: WorkshopsProps) => {
+const Workshops = ({ onBack, onRegister, onSchedule }: WorkshopsProps) => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
@@ -38,8 +40,8 @@ const Workshops = ({ onBack }: WorkshopsProps) => {
               Join our immersive workshops designed to empower students with cutting-edge skills in digital literacy, AI, and robotics.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg">Register Now</Button>
-              <Button size="lg" variant="outline">View Schedule</Button>
+              <Button size="lg" onClick={onRegister}>Register Now</Button>
+              <Button size="lg" variant="outline" onClick={onSchedule}>View Schedule</Button>
             </div>
           </div>
         </div>
@@ -253,7 +255,7 @@ const Workshops = ({ onBack }: WorkshopsProps) => {
             Join our next workshop session and transform your skills with Dij.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg">Register for a Workshop</Button>
+            <Button size="lg" onClick={onRegister}>Register for a Workshop</Button>
             <Button size="lg" variant="outline">Contact Us</Button>
           </div>
         </div>
