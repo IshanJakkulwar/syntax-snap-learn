@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Heart, Bookmark, Share2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Heart, Bookmark, Share2, ChevronLeft, ChevronRight, Copy, FileText } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -215,19 +215,19 @@ export const LessonCard = ({
           </div>
         </div>
 
-        {/* Desktop navigation arrows - next to language icon */}
-        <div className="hidden lg:flex absolute top-[calc(50%-180px)] left-0 right-0 justify-center items-center gap-4 z-30 pointer-events-none">
+        {/* Desktop navigation arrows - higher position */}
+        <div className="hidden lg:flex absolute top-[calc(50%-220px)] left-0 right-0 justify-center items-center gap-4 z-30 pointer-events-none">
           <Button
             variant="ghost"
             size="lg"
             onClick={previousSlide}
             className={cn(
-              "w-16 h-16 rounded-full bg-white text-foreground hover:bg-white/90 transition-all duration-150 shadow-lg pointer-events-auto",
+              "w-14 h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 shadow-lg pointer-events-auto border-0",
               currentSlide === 0 && "opacity-30 cursor-not-allowed"
             )}
             disabled={currentSlide === 0}
           >
-            <ChevronLeft className="w-8 h-8" />
+            <ChevronLeft className="w-6 h-6" />
           </Button>
           <div className="w-32" /> {/* Spacer for icon */}
           <Button
@@ -235,17 +235,16 @@ export const LessonCard = ({
             size="lg"
             onClick={nextSlide}
             className={cn(
-              "w-16 h-16 rounded-full bg-white text-foreground hover:bg-white/90 transition-all duration-150 shadow-lg pointer-events-auto",
+              "w-14 h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 shadow-lg pointer-events-auto border-0",
               currentSlide === slides.length - 1 && "opacity-30 cursor-not-allowed"
             )}
             disabled={currentSlide === slides.length - 1}
           >
-            <ChevronRight className="w-8 h-8" />
+            <ChevronRight className="w-6 h-6" />
           </Button>
         </div>
 
-
-        {/* Right side action buttons (mobile only) - centered vertically like TikTok */}
+        {/* Mobile only - vertical buttons on right */}
         <div className="absolute right-3 top-1/2 -translate-y-1/2 lg:hidden flex flex-col gap-4 z-20">
           <Button
             variant="ghost"
@@ -303,31 +302,19 @@ export const LessonCard = ({
           </Button>
         </div>
 
-        {/* Desktop action buttons - right side vertical */}
-        <div className="hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 flex-col gap-3">
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => setShowCode(!showCode)}
-            className={cn(
-              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
-              showCode ? "text-primary" : "text-foreground"
-            )}
-          >
-            <span className="text-lg font-bold">{"</>"}</span>
-          </Button>
-
+        {/* Action buttons - horizontal below card for all screens */}
+        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex gap-3 z-20">
           <Button
             variant="ghost"
             size="sm"
             onClick={onLike}
             className={cn(
-              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 flex-col",
+              "h-12 px-4 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 gap-2",
               lesson.isLiked ? "text-destructive" : "text-foreground"
             )}
           >
-            <Heart className={cn("w-6 h-6", lesson.isLiked && "fill-current")} />
-            <span className="text-xs mt-0.5 font-medium">{lesson.likes > 999 ? `${Math.floor(lesson.likes/1000)}k` : lesson.likes}</span>
+            <Heart className={cn("w-5 h-5", lesson.isLiked && "fill-current")} />
+            <span className="text-sm font-medium">{lesson.likes > 999 ? `${Math.floor(lesson.likes/1000)}k` : lesson.likes}</span>
           </Button>
 
           <Button
@@ -335,29 +322,57 @@ export const LessonCard = ({
             size="sm"
             onClick={onSave}
             className={cn(
-              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
+              "h-12 px-4 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 gap-2",
               lesson.isSaved ? "text-warning" : "text-foreground"
             )}
           >
-            <Bookmark className={cn("w-6 h-6", lesson.isSaved && "fill-current")} />
+            <Bookmark className={cn("w-5 h-5", lesson.isSaved && "fill-current")} />
+            <span className="text-sm">Save</span>
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setShowCode(!showCode)}
+            className={cn(
+              "h-12 px-4 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 gap-2",
+              showCode ? "text-primary" : "text-foreground"
+            )}
+          >
+            <span className="text-lg font-bold">{"</>"}</span>
+            <span className="text-sm">Code</span>
           </Button>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={onShare}
-            className="w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0"
+            className="h-12 px-4 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0 gap-2"
           >
-            <Share2 className="w-6 h-6" />
+            <Share2 className="w-5 h-5" />
+            <span className="text-sm">Share</span>
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+            }}
+            className="h-12 px-4 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0 gap-2"
+          >
+            <Copy className="w-5 h-5" />
+            <span className="text-sm">Copy</span>
           </Button>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={onSwipeRight}
-            className="w-12 h-12 rounded-full bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transition-all duration-150 border-0"
+            className="h-12 px-4 rounded-full bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transition-all duration-150 border-0 gap-2"
           >
-            <span className="text-xl">📝</span>
+            <FileText className="w-5 h-5" />
+            <span className="text-sm">Notes</span>
           </Button>
         </div>
       </div>

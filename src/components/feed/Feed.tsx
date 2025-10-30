@@ -177,7 +177,7 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
   }
 
   return (
-    <div ref={listRef} className="h-screen overflow-y-auto snap-scroll custom-scrollbar">
+    <div ref={listRef} className="h-screen overflow-y-auto snap-scroll scrollbar-hide">
       {feedItems.map((item, index) => (
         <div ref={(el) => (itemRefs.current[index] = el)} data-index={index} key={`${item.type}-${index}`} className="w-full">
           {item.type === "lesson" ? (

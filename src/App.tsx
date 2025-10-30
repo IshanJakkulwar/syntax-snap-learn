@@ -16,6 +16,7 @@ import { MyCourses } from "@/pages/MyCourses";
 import { CourseDetail } from "@/pages/CourseDetail";
 import { VideoCoursePage } from "@/pages/VideoCoursePage";
 import Index from "@/pages/Index";
+import Workshops from "@/pages/Workshops";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const queryClient = new QueryClient();
@@ -36,7 +37,21 @@ const App = () => {
     return (
       <QueryClientProvider client={queryClient}>
         <TooltipProvider>
-          <Index onGetStarted={() => setCurrentView({ page: "app" })} />
+          <Index 
+            onGetStarted={() => setCurrentView({ page: "app" })} 
+            onNavigateToWorkshops={() => setCurrentView({ page: "workshops" })}
+          />
+        </TooltipProvider>
+      </QueryClientProvider>
+    );
+  }
+
+  // Show workshops page
+  if (currentView.page === "workshops") {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Workshops onBack={() => setCurrentView({ page: "landing" })} />
         </TooltipProvider>
       </QueryClientProvider>
     );
@@ -83,6 +98,8 @@ const App = () => {
           onBack={() => setCurrentView({ page: "explore" })}
           onStartVideo={() => setCurrentView({ page: "home" })}
         />;
+      case "workshops":
+        return <Workshops onBack={() => setCurrentView({ page: "landing" })} />;
       default:
         return <Home onNavigateToNotes={(lessonId: string) => setCurrentView({ page: "notes", data: { lessonId } })} />;
     }

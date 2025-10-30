@@ -3,12 +3,17 @@ import { ArrowRight, Code2, Cpu, Sparkles, Users, Award, BookOpen } from "lucide
 
 interface IndexProps {
   onGetStarted?: () => void;
+  onNavigateToWorkshops?: () => void;
 }
 
-const Index = ({ onGetStarted }: IndexProps) => {
+const Index = ({ onGetStarted, onNavigateToWorkshops }: IndexProps) => {
 
   const handleGetStarted = () => {
     onGetStarted?.();
+  };
+
+  const handleWorkshopsClick = () => {
+    onNavigateToWorkshops?.();
   };
 
   return (
@@ -48,7 +53,7 @@ const Index = ({ onGetStarted }: IndexProps) => {
                 Explore Syntax AI
                 <ArrowRight className="w-5 h-5" />
               </Button>
-              <Button size="lg" variant="outline">Learn About Our Workshops</Button>
+              <Button size="lg" variant="outline" onClick={handleWorkshopsClick}>Learn About Our Workshops</Button>
             </div>
           </div>
         </div>
