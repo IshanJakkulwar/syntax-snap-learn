@@ -216,7 +216,7 @@ export const LessonCard = ({
         </div>
 
         {/* Desktop navigation arrows - next to language icon */}
-        <div className="hidden lg:flex absolute top-[calc(50%-120px)] left-0 right-0 justify-center items-center gap-4 z-30 pointer-events-none">
+        <div className="hidden lg:flex absolute top-[calc(50%-180px)] left-0 right-0 justify-center items-center gap-4 z-30 pointer-events-none">
           <Button
             variant="ghost"
             size="lg"
