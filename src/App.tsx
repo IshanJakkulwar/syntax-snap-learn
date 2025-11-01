@@ -63,6 +63,31 @@ const App = () => {
     );
   }
 
+  // Show workshop register page
+  if (currentView.page === "workshop-register") {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <WorkshopRegister onBack={() => setCurrentView({ page: "workshops" })} />
+        </TooltipProvider>
+      </QueryClientProvider>
+    );
+  }
+
+  // Show workshop schedule page
+  if (currentView.page === "workshop-schedule") {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <WorkshopSchedule 
+            onBack={() => setCurrentView({ page: "workshops" })}
+            onRegister={() => setCurrentView({ page: "workshop-register" })}
+          />
+        </TooltipProvider>
+      </QueryClientProvider>
+    );
+  }
+
   if (!hasCompletedOnboarding) {
     return (
       <QueryClientProvider client={queryClient}>
@@ -103,15 +128,6 @@ const App = () => {
           courseId={currentView.data?.courseId} 
           onBack={() => setCurrentView({ page: "explore" })}
           onStartVideo={() => setCurrentView({ page: "home" })}
-        />;
-      case "workshops":
-        return <Workshops onBack={() => setCurrentView({ page: "landing" })} />;
-      case "workshop-register":
-        return <WorkshopRegister onBack={() => setCurrentView({ page: "workshops" })} />;
-      case "workshop-schedule":
-        return <WorkshopSchedule 
-          onBack={() => setCurrentView({ page: "workshops" })}
-          onRegister={() => setCurrentView({ page: "workshop-register" })}
         />;
       default:
         return <Home onNavigateToNotes={(lessonId: string) => setCurrentView({ page: "notes", data: { lessonId } })} />;

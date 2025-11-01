@@ -302,19 +302,18 @@ export const LessonCard = ({
           </Button>
         </div>
 
-        {/* Action buttons - horizontal below card for all screens */}
+        {/* Action buttons - horizontal below card for desktop - icon only and centered */}
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex gap-3 z-20">
           <Button
             variant="ghost"
             size="sm"
             onClick={onLike}
             className={cn(
-              "h-12 px-4 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 gap-2",
+              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
               lesson.isLiked ? "text-destructive" : "text-foreground"
             )}
           >
             <Heart className={cn("w-5 h-5", lesson.isLiked && "fill-current")} />
-            <span className="text-sm font-medium">{lesson.likes > 999 ? `${Math.floor(lesson.likes/1000)}k` : lesson.likes}</span>
           </Button>
 
           <Button
@@ -322,12 +321,11 @@ export const LessonCard = ({
             size="sm"
             onClick={onSave}
             className={cn(
-              "h-12 px-4 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 gap-2",
+              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
               lesson.isSaved ? "text-warning" : "text-foreground"
             )}
           >
             <Bookmark className={cn("w-5 h-5", lesson.isSaved && "fill-current")} />
-            <span className="text-sm">Save</span>
           </Button>
 
           <Button
@@ -335,22 +333,20 @@ export const LessonCard = ({
             size="sm"
             onClick={() => setShowCode(!showCode)}
             className={cn(
-              "h-12 px-4 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 gap-2",
+              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
               showCode ? "text-primary" : "text-foreground"
             )}
           >
             <span className="text-lg font-bold">{"</>"}</span>
-            <span className="text-sm">Code</span>
           </Button>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={onShare}
-            className="h-12 px-4 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0 gap-2"
+            className="w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0"
           >
             <Share2 className="w-5 h-5" />
-            <span className="text-sm">Share</span>
           </Button>
 
           <Button
@@ -359,20 +355,18 @@ export const LessonCard = ({
             onClick={() => {
               navigator.clipboard.writeText(window.location.href);
             }}
-            className="h-12 px-4 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0 gap-2"
+            className="w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0"
           >
             <Copy className="w-5 h-5" />
-            <span className="text-sm">Copy</span>
           </Button>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={onSwipeRight}
-            className="h-12 px-4 rounded-full bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transition-all duration-150 border-0 gap-2"
+            className="w-12 h-12 rounded-full bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transition-all duration-150 border-0"
           >
             <FileText className="w-5 h-5" />
-            <span className="text-sm">Notes</span>
           </Button>
         </div>
       </div>
