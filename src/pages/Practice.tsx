@@ -5,59 +5,119 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import { useIsMobile } from "@/hooks/use-mobile";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const problems = [
-  {
-    id: "1",
-    title: "Two Sum",
-    difficulty: "Easy",
-    topic: "Arrays",
-    description: "Given an array of integers and a target sum, return indices of two numbers that add up to target.",
-    starterCode: `def twoSum(nums, target):
+const problemsByTopic = {
+  Python: [
+    {
+      id: "py1",
+      title: "List Comprehensions",
+      difficulty: "Easy",
+      topic: "Python",
+      description: "Create a list comprehension that filters even numbers from a list and squares them.",
+      starterCode: `def filter_and_square(nums):
+    # Use list comprehension
+    pass`,
+      hints: [
+        "Use the syntax [expression for item in list if condition]",
+        "Check if number % 2 == 0 for even numbers"
+      ]
+    },
+    {
+      id: "py2",
+      title: "Dictionary Merging",
+      difficulty: "Medium",
+      topic: "Python",
+      description: "Write a function to merge two dictionaries, combining values for duplicate keys.",
+      starterCode: `def merge_dicts(dict1, dict2):
     # Your code here
     pass`,
-    hints: [
-      "Use a hash map to store visited numbers",
-      "For each number, check if target - number exists in the map"
-    ]
-  },
-  {
-    id: "2", 
-    title: "Reverse String",
-    difficulty: "Easy",
-    topic: "Strings",
-    description: "Write a function that reverses a string. The input string is given as an array of characters.",
-    starterCode: `def reverseString(s):
+      hints: [
+        "Use the ** operator or dict.update()",
+        "Handle duplicate keys by summing values"
+      ]
+    }
+  ],
+  React: [
+    {
+      id: "react1",
+      title: "useState Hook",
+      difficulty: "Easy",
+      topic: "React",
+      description: "Create a counter component using the useState hook with increment and decrement buttons.",
+      starterCode: `import { useState } from 'react';
+
+function Counter() {
+  // Your code here
+}`,
+      hints: [
+        "Initialize state with useState(0)",
+        "Create functions to update state with prevState => prevState + 1"
+      ]
+    },
+    {
+      id: "react2",
+      title: "useEffect Hook",
+      difficulty: "Medium",
+      topic: "React",
+      description: "Implement a component that fetches data when it mounts using useEffect.",
+      starterCode: `import { useState, useEffect } from 'react';
+
+function DataFetcher() {
+  // Your code here
+}`,
+      hints: [
+        "Use an empty dependency array [] to run only on mount",
+        "Don't forget to handle loading and error states"
+      ]
+    }
+  ],
+  ML: [
+    {
+      id: "ml1",
+      title: "Linear Regression",
+      difficulty: "Medium",
+      topic: "Machine Learning",
+      description: "Implement a simple linear regression model using gradient descent.",
+      starterCode: `import numpy as np
+
+def linear_regression(X, y, learning_rate, iterations):
     # Your code here
     pass`,
-    hints: [
-      "Use two pointers from start and end",
-      "Swap characters and move pointers toward center"
-    ]
-  },
-  {
-    id: "3",
-    title: "Valid Parentheses", 
-    difficulty: "Medium",
-    topic: "Stack",
-    description: "Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.",
-    starterCode: `def isValid(s):
+      hints: [
+        "Initialize weights and bias to zeros",
+        "Calculate gradients and update parameters iteratively"
+      ]
+    },
+    {
+      id: "ml2",
+      title: "K-Means Clustering",
+      difficulty: "Hard",
+      topic: "Machine Learning",
+      description: "Implement the K-means clustering algorithm from scratch.",
+      starterCode: `import numpy as np
+
+def kmeans(X, k, max_iters):
     # Your code here
     pass`,
-    hints: [
-      "Use a stack to keep track of opening brackets",
-      "For each closing bracket, check if it matches the last opening bracket"
-    ]
-  }
-];
+      hints: [
+        "Randomly initialize k centroids",
+        "Alternate between assigning points to clusters and updating centroids"
+      ]
+    }
+  ]
+};
 
 export const Practice = () => {
-  const [selectedProblem, setSelectedProblem] = useState(problems[0]);
+  const [activeTopic, setActiveTopic] = useState("Python");
+  const [selectedProblem, setSelectedProblem] = useState(problemsByTopic.Python[0]);
   const [code, setCode] = useState(selectedProblem.starterCode);
   const [showHints, setShowHints] = useState(false);
   const [isRunning, setIsRunning] = useState(false);
   const [result, setResult] = useState<string>("");
   const isMobile = useIsMobile();
+
+  const allProblems = problemsByTopic[activeTopic as keyof typeof problemsByTopic] || [];
 
   const handleRun = async () => {
     setIsRunning(true);
@@ -70,7 +130,7 @@ export const Practice = () => {
     setIsRunning(false);
   };
 
-  const handleProblemSelect = (problem: typeof problems[0]) => {
+  const handleProblemSelect = (problem: typeof allProblems[0]) => {
     setSelectedProblem(problem);
     setCode(problem.starterCode);
     setResult("");
@@ -113,33 +173,41 @@ export const Practice = () => {
           <p className="text-sm text-muted-foreground">Solve coding challenges</p>
         </div>
         
-        <div className="p-4 space-y-3">
-          {problems.map((problem) => (
-            <Card 
-              key={problem.id}
-              className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-medium ${
-                selectedProblem.id === problem.id ? 'border-primary bg-primary/5' : ''
-              }`}
-              onClick={() => handleProblemSelect(problem)}
-            >
-              <div className="flex items-start justify-between mb-2">
-                <h3 className="font-semibold text-sm">{problem.title}</h3>
-                <Badge 
-                  variant="outline"
-                  className={`text-xs ${difficultyColors[problem.difficulty as keyof typeof difficultyColors]}`}
-                >
-                  {problem.difficulty}
+        <Tabs value={activeTopic} onValueChange={setActiveTopic} className="w-full">
+          <TabsList className="w-full grid grid-cols-3 m-4">
+            <TabsTrigger value="Python">Python</TabsTrigger>
+            <TabsTrigger value="React">React</TabsTrigger>
+            <TabsTrigger value="ML">ML</TabsTrigger>
+          </TabsList>
+          
+          <div className="p-4 space-y-3">
+            {allProblems.map((problem) => (
+              <Card 
+                key={problem.id}
+                className={`p-4 cursor-pointer transition-all duration-200 hover:shadow-medium ${
+                  selectedProblem.id === problem.id ? 'border-primary bg-primary/5' : ''
+                }`}
+                onClick={() => handleProblemSelect(problem)}
+              >
+                <div className="flex items-start justify-between mb-2">
+                  <h3 className="font-semibold text-sm">{problem.title}</h3>
+                  <Badge 
+                    variant="outline"
+                    className={`text-xs ${difficultyColors[problem.difficulty as keyof typeof difficultyColors]}`}
+                  >
+                    {problem.difficulty}
+                  </Badge>
+                </div>
+                <Badge variant="secondary" className="text-xs mb-2">
+                  {problem.topic}
                 </Badge>
-              </div>
-              <Badge variant="secondary" className="text-xs mb-2">
-                {problem.topic}
-              </Badge>
-              <p className="text-xs text-muted-foreground line-clamp-2">
-                {problem.description}
-              </p>
-            </Card>
-          ))}
-        </div>
+                <p className="text-xs text-muted-foreground line-clamp-2">
+                  {problem.description}
+                </p>
+              </Card>
+            ))}
+          </div>
+        </Tabs>
       </div>
 
       {/* Main Workspace */}

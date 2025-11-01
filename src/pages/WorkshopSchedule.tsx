@@ -20,7 +20,7 @@ const WorkshopSchedule = ({ onBack, onRegister }: WorkshopScheduleProps) => {
       spots: 8,
       totalSpots: 15,
       level: "Beginner",
-      instructor: "Dr. Sarah Chen",
+      instructor: "Ishan Jakkulwar",
     },
     {
       id: 2,
@@ -33,7 +33,7 @@ const WorkshopSchedule = ({ onBack, onRegister }: WorkshopScheduleProps) => {
       spots: 3,
       totalSpots: 12,
       level: "Intermediate",
-      instructor: "Prof. Michael Rodriguez",
+      instructor: "Aditya Shah",
     },
     {
       id: 3,
@@ -46,7 +46,7 @@ const WorkshopSchedule = ({ onBack, onRegister }: WorkshopScheduleProps) => {
       spots: 5,
       totalSpots: 10,
       level: "Beginner",
-      instructor: "James Park",
+      instructor: "Ishan Jakkulwar",
     },
     {
       id: 4,
@@ -59,7 +59,7 @@ const WorkshopSchedule = ({ onBack, onRegister }: WorkshopScheduleProps) => {
       spots: 12,
       totalSpots: 20,
       level: "Intermediate",
-      instructor: "Emily Watson",
+      instructor: "Aditya Shah",
     },
     {
       id: 5,
@@ -72,7 +72,7 @@ const WorkshopSchedule = ({ onBack, onRegister }: WorkshopScheduleProps) => {
       spots: 15,
       totalSpots: 25,
       level: "All Levels",
-      instructor: "Dr. Aisha Patel",
+      instructor: "Ishan Jakkulwar",
     },
     {
       id: 6,
@@ -85,7 +85,7 @@ const WorkshopSchedule = ({ onBack, onRegister }: WorkshopScheduleProps) => {
       spots: 2,
       totalSpots: 8,
       level: "Advanced",
-      instructor: "David Kim & Sarah Martinez",
+      instructor: "Aditya Shah",
     },
   ];
 

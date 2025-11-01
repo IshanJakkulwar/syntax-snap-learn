@@ -61,10 +61,15 @@ export const Profile = ({ onNavigateToSettings }: ProfileProps) => {
             <div className="flex-1">
               <div className="flex items-center justify-between mb-2">
                 <h1 className="text-2xl font-bold">{userStats.username}</h1>
-                <Button variant="outline" size="sm" onClick={onNavigateToSettings}>
-                  <Settings className="w-4 h-4 mr-2" />
-                  Settings
-                </Button>
+                <div className="flex gap-2">
+                  <Button variant="outline" size="sm" onClick={() => alert("Privacy Policy coming soon...")}>
+                    View Policy
+                  </Button>
+                  <Button variant="outline" size="sm" onClick={onNavigateToSettings}>
+                    <Settings className="w-4 h-4 mr-2" />
+                    Settings
+                  </Button>
+                </div>
               </div>
               
               <Badge variant="secondary" className="mb-3">
