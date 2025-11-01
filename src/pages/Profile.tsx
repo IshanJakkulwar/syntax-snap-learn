@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { User, Settings, Trophy, Clock, Bookmark, History, Users } from "lucide-react";
+import { User, Settings, Trophy, Clock, Bookmark, History, Users, FileText } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -39,9 +39,10 @@ const learningHistory = [
 
 interface ProfileProps {
   onNavigateToSettings: () => void;
+  onNavigateToPolicy?: () => void;
 }
 
-export const Profile = ({ onNavigateToSettings }: ProfileProps) => {
+export const Profile = ({ onNavigateToSettings, onNavigateToPolicy }: ProfileProps) => {
   const [activeTab, setActiveTab] = useState("saved");
 
   const xpPercentage = (userStats.xp / userStats.nextLevelXp) * 100;
@@ -62,7 +63,8 @@ export const Profile = ({ onNavigateToSettings }: ProfileProps) => {
               <div className="flex items-center justify-between mb-2">
                 <h1 className="text-2xl font-bold">{userStats.username}</h1>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={() => alert("Privacy Policy coming soon...")}>
+                  <Button variant="outline" size="sm" onClick={onNavigateToPolicy}>
+                    <FileText className="w-4 h-4 mr-2" />
                     View Policy
                   </Button>
                   <Button variant="outline" size="sm" onClick={onNavigateToSettings}>

@@ -64,11 +64,11 @@ const Index = ({ onGetStarted, onNavigateToWorkshops }: IndexProps) => {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="text-5xl font-bold text-primary mb-2">3K+</div>
+              <div className="text-5xl font-bold text-primary mb-2">5K+</div>
               <div className="text-muted-foreground">Students Empowered</div>
             </div>
             <div className="text-center">
-              <div className="text-5xl font-bold text-primary mb-2">5+</div>
+              <div className="text-5xl font-bold text-primary mb-2">15+</div>
               <div className="text-muted-foreground">Different Workshop Programs</div>
             </div>
             <div className="text-center">

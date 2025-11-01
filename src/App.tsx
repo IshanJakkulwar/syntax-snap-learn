@@ -19,6 +19,7 @@ import Index from "@/pages/Index";
 import Workshops from "@/pages/Workshops";
 import WorkshopRegister from "@/pages/WorkshopRegister";
 import WorkshopSchedule from "@/pages/WorkshopSchedule";
+import Policy from "@/pages/Policy";
 import { useIsMobile } from "@/hooks/use-mobile";
 
 const queryClient = new QueryClient();
@@ -88,6 +89,17 @@ const App = () => {
     );
   }
 
+  // Show policy page
+  if (currentView.page === "policy") {
+    return (
+      <QueryClientProvider client={queryClient}>
+        <TooltipProvider>
+          <Policy onBack={() => setCurrentView({ page: "profile" })} />
+        </TooltipProvider>
+      </QueryClientProvider>
+    );
+  }
+
   if (!hasCompletedOnboarding) {
     return (
       <QueryClientProvider client={queryClient}>
@@ -110,7 +122,10 @@ const App = () => {
       case "practice":
         return <Practice />;
       case "profile":
-        return <Profile onNavigateToSettings={() => setCurrentView({ page: "settings" })} />;
+        return <Profile 
+          onNavigateToSettings={() => setCurrentView({ page: "settings" })} 
+          onNavigateToPolicy={() => setCurrentView({ page: "policy" })}
+        />;
       case "notes":
         return <NotesPage lessonId={currentView.data?.lessonId} onBack={() => setCurrentView({ page: "home" })} />;
       case "settings":
