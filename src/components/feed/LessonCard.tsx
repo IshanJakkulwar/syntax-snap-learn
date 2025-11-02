@@ -152,8 +152,12 @@ export const LessonCard = ({
   };
 
   return (
-    <Card className="relative w-full h-screen max-w-md mx-auto bg-card overflow-hidden snap-item border-none shadow-none">
-      {/* Progress bar */}
+    // Responsive card container that scales properly on all screens
+    // Uses min-h-screen with dvh (dynamic viewport height) fallback for mobile browsers
+    // max-w-4xl ensures cards don't get too wide on ultra-wide screens
+    // Flex layout keeps content centered and prevents overflow
+    <Card className="relative w-full min-h-[100dvh] min-h-screen max-w-4xl mx-auto bg-card overflow-hidden snap-item border-none shadow-none flex flex-col">
+      {/* Progress bar - sticky at top, always visible */}
       <div className="absolute top-0 left-0 right-0 h-1 bg-border z-20">
         <div 
           className="h-full bg-primary transition-all duration-300 ease-out"
@@ -161,19 +165,21 @@ export const LessonCard = ({
         ></div>
       </div>
 
-      {/* Card Content Area */}
+      {/* Card Content Area - uses flex-1 to fill available space */}
       <div 
-        className="relative h-full"
+        className="relative flex-1 flex flex-col min-h-0"
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
       >
-        {/* Main card content */}
-        <div className="absolute inset-0 bg-gradient-to-br from-card via-card to-muted/30 flex items-center justify-center p-8">
+        {/* Main card content - centered with proper spacing on all screens */}
+        {/* Uses padding that scales with viewport (px-4 sm:px-6 lg:px-8) */}
+        {/* flex items-center ensures vertical centering across all aspect ratios */}
+        <div className="absolute inset-0 bg-gradient-to-br from-card via-card to-muted/30 flex items-center justify-center px-4 sm:px-6 lg:px-8 py-20 sm:py-24 lg:py-28">
           <div className="max-w-2xl w-full">
-            {/* Card header with icon */}
-            <div className="text-center mb-8">
-              <div className="text-7xl mb-6">
+            {/* Card header with icon - scales based on screen size */}
+            <div className="text-center mb-6 sm:mb-8">
+              <div className="text-5xl sm:text-6xl lg:text-7xl mb-4 sm:mb-6">
                 {lesson.language === "Python" && "🐍"}
                 {lesson.language === "JavaScript" && "⚡"}
                 {lesson.language === "C++" && "⚙️"}
@@ -181,26 +187,28 @@ export const LessonCard = ({
               </div>
             </div>
             
-            {/* Card body with slide content */}
+            {/* Card body with slide content - responsive padding and text sizing */}
+            {/* min-h ensures content card has enough height on landscape mobile */}
             <div 
-              className="bg-background/50 backdrop-blur-sm rounded-2xl p-8 border border-border shadow-lg max-w-2xl mx-auto transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+              className="bg-background/50 backdrop-blur-sm rounded-xl sm:rounded-2xl p-4 sm:p-6 lg:p-8 border border-border shadow-lg max-w-2xl mx-auto transition-all duration-400 ease-[cubic-bezier(0.34,1.56,0.64,1)] min-h-[200px]"
               style={{
                 transform: isTransitioning ? 'scale(0.98)' : 'scale(1)',
                 opacity: isTransitioning ? 0.7 : 1
               }}
             >
-              <h3 className="text-2xl font-bold text-foreground mb-4">{slides[currentSlide].title}</h3>
-              <p className="text-muted-foreground text-lg leading-relaxed">
+              <h3 className="text-xl sm:text-2xl font-bold text-foreground mb-3 sm:mb-4">{slides[currentSlide].title}</h3>
+              <p className="text-muted-foreground text-base sm:text-lg leading-relaxed">
                 {slides[currentSlide].content}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Top info badges */}
-        <div className="absolute top-6 left-4 right-4 flex items-start justify-between z-30">
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge variant="secondary" className="bg-background/90 backdrop-blur-md shadow-sm">
+        {/* Top info badges - responsive positioning and sizing */}
+        {/* Uses safe-area padding for notched devices */}
+        <div className="absolute top-4 sm:top-6 left-3 sm:left-4 right-3 sm:right-4 flex items-start justify-between z-30 pt-safe">
+          <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 max-w-[85%]">
+            <Badge variant="secondary" className="bg-background/90 backdrop-blur-md shadow-sm text-xs sm:text-sm">
               {lesson.creator}
             </Badge>
             <Badge 
@@ -209,54 +217,56 @@ export const LessonCard = ({
             >
               {lesson.level}
             </Badge>
-            <Badge variant="secondary" className="bg-background/90 backdrop-blur-md shadow-sm">
+            <Badge variant="secondary" className="bg-background/90 backdrop-blur-md shadow-sm text-xs sm:text-sm">
               {lesson.language}
             </Badge>
           </div>
         </div>
 
-        {/* Desktop navigation arrows - higher position */}
-        <div className="hidden lg:flex absolute top-[calc(50%-220px)] left-0 right-0 justify-center items-center gap-4 z-30 pointer-events-none">
+        {/* Desktop navigation arrows - centered vertically using 50% transform */}
+        {/* Responsive sizing and positioning for different screen widths */}
+        <div className="hidden md:flex absolute top-1/2 -translate-y-1/2 left-4 lg:left-8 right-4 lg:right-8 justify-between items-center z-30 pointer-events-none">
           <Button
             variant="ghost"
             size="lg"
             onClick={previousSlide}
             className={cn(
-              "w-14 h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 shadow-lg pointer-events-auto border-0",
+              "w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 shadow-lg pointer-events-auto border-0",
               currentSlide === 0 && "opacity-30 cursor-not-allowed"
             )}
             disabled={currentSlide === 0}
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-5 h-5 lg:w-6 lg:h-6" />
           </Button>
-          <div className="w-32" /> {/* Spacer for icon */}
           <Button
             variant="ghost"
             size="lg"
             onClick={nextSlide}
             className={cn(
-              "w-14 h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 shadow-lg pointer-events-auto border-0",
+              "w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 shadow-lg pointer-events-auto border-0",
               currentSlide === slides.length - 1 && "opacity-30 cursor-not-allowed"
             )}
             disabled={currentSlide === slides.length - 1}
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-5 h-5 lg:w-6 lg:h-6" />
           </Button>
         </div>
 
-        {/* Mobile only - vertical buttons on right */}
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 lg:hidden flex flex-col gap-4 z-20">
+        {/* Mobile only - vertical buttons on right side */}
+        {/* Responsive sizing and gap - smaller on very small screens */}
+        {/* Uses safe-area padding to avoid notches on modern phones */}
+        <div className="absolute right-2 sm:right-3 top-1/2 -translate-y-1/2 md:hidden flex flex-col gap-2 sm:gap-3 z-20 pr-safe">
           <Button
             variant="ghost"
             size="sm"
             onClick={onLike}
             className={cn(
-              "w-14 h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 flex-col border-0",
+              "w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 flex-col border-0 p-0",
               lesson.isLiked ? "text-destructive" : "text-foreground"
             )}
           >
-            <Heart className={cn("w-7 h-7", lesson.isLiked && "fill-current")} />
-            <span className="text-xs mt-0.5 font-medium">{lesson.likes > 999 ? `${Math.floor(lesson.likes/1000)}k` : lesson.likes}</span>
+            <Heart className={cn("w-5 h-5 sm:w-6 sm:h-6", lesson.isLiked && "fill-current")} />
+            <span className="text-[10px] sm:text-xs mt-0.5 font-medium">{lesson.likes > 999 ? `${Math.floor(lesson.likes/1000)}k` : lesson.likes}</span>
           </Button>
 
           <Button
@@ -264,11 +274,11 @@ export const LessonCard = ({
             size="sm"
             onClick={onSave}
             className={cn(
-              "w-14 h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
+              "w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 p-0",
               lesson.isSaved ? "text-warning" : "text-foreground"
             )}
           >
-            <Bookmark className={cn("w-7 h-7", lesson.isSaved && "fill-current")} />
+            <Bookmark className={cn("w-5 h-5 sm:w-6 sm:h-6", lesson.isSaved && "fill-current")} />
           </Button>
 
           <Button
@@ -276,40 +286,42 @@ export const LessonCard = ({
             size="sm"
             onClick={() => setShowCode(!showCode)}
             className={cn(
-              "w-14 h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
+              "w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 p-0",
               showCode ? "text-primary" : "text-foreground"
             )}
           >
-            <span className="text-lg font-bold">{"</>"}</span>
+            <span className="text-base sm:text-lg font-bold">{"</>"}</span>
           </Button>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={onShare}
-            className="w-14 h-14 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0 p-0"
           >
-            <Share2 className="w-7 h-7" />
+            <Share2 className="w-5 h-5 sm:w-6 sm:h-6" />
           </Button>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={onSwipeRight}
-            className="w-14 h-14 rounded-full bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transition-all duration-150 border-0"
+            className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transition-all duration-150 border-0 p-0"
           >
-            <span className="text-xl">📝</span>
+            <span className="text-lg sm:text-xl">📝</span>
           </Button>
         </div>
 
-        {/* Action buttons - horizontal below card for desktop - icon only and centered */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden lg:flex gap-3 z-20">
+        {/* Action buttons - horizontal below card for desktop/tablet */}
+        {/* Always visible at bottom, responsive positioning with safe-area padding */}
+        {/* Scales button size based on screen width for optimal touch targets */}
+        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 left-1/2 -translate-x-1/2 hidden md:flex gap-2 lg:gap-3 z-20 pb-safe">
           <Button
             variant="ghost"
             size="sm"
             onClick={onLike}
             className={cn(
-              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
+              "w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 p-0",
               lesson.isLiked ? "text-destructive" : "text-foreground"
             )}
           >
@@ -321,7 +333,7 @@ export const LessonCard = ({
             size="sm"
             onClick={onSave}
             className={cn(
-              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
+              "w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 p-0",
               lesson.isSaved ? "text-warning" : "text-foreground"
             )}
           >
@@ -333,18 +345,18 @@ export const LessonCard = ({
             size="sm"
             onClick={() => setShowCode(!showCode)}
             className={cn(
-              "w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0",
+              "w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-background/80 backdrop-blur-sm hover:bg-accent transition-all duration-150 border-0 p-0",
               showCode ? "text-primary" : "text-foreground"
             )}
           >
-            <span className="text-lg font-bold">{"</>"}</span>
+            <span className="text-base lg:text-lg font-bold">{"</>"}</span>
           </Button>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={onShare}
-            className="w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0"
+            className="w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0 p-0"
           >
             <Share2 className="w-5 h-5" />
           </Button>
@@ -355,7 +367,7 @@ export const LessonCard = ({
             onClick={() => {
               navigator.clipboard.writeText(window.location.href);
             }}
-            className="w-12 h-12 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0"
+            className="w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-background/80 backdrop-blur-sm text-foreground hover:bg-accent transition-all duration-150 border-0 p-0"
           >
             <Copy className="w-5 h-5" />
           </Button>
@@ -364,43 +376,48 @@ export const LessonCard = ({
             variant="ghost"
             size="sm"
             onClick={onSwipeRight}
-            className="w-12 h-12 rounded-full bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transition-all duration-150 border-0"
+            className="w-11 h-11 lg:w-12 lg:h-12 rounded-full bg-primary/80 backdrop-blur-sm text-primary-foreground hover:bg-primary transition-all duration-150 border-0 p-0"
           >
             <FileText className="w-5 h-5" />
           </Button>
         </div>
       </div>
 
-      {/* Code snippet overlay */}
+      {/* Code snippet overlay - slides up from bottom */}
+      {/* Responsive max-height (60% on small screens, 70% on larger) */}
+      {/* Uses dvh units for better mobile browser support (dynamic viewport) */}
+      {/* Safe-area padding ensures content isn't hidden behind home indicator */}
       {showCode && lesson.codeSnippet && (
-        <div className="absolute bottom-0 left-0 right-0 bg-card border-t border-border animate-slide-up max-h-[70%] overflow-y-auto overscroll-contain touch-pan-y ios-touch-scroll">
-          <div className="p-4">
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="font-semibold">Code Example</h4>
+        <div className="absolute bottom-0 left-0 right-0 bg-card border-t border-border animate-slide-up max-h-[60dvh] sm:max-h-[70dvh] overflow-y-auto overscroll-contain touch-pan-y ios-touch-scroll pb-safe">
+          <div className="p-3 sm:p-4 lg:p-6">
+            <div className="flex items-center justify-between mb-2 sm:mb-3">
+              <h4 className="font-semibold text-sm sm:text-base">Code Example</h4>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => setShowCode(false)}
-                className="text-muted-foreground hover:text-foreground"
+                className="text-muted-foreground hover:text-foreground h-8 w-8 p-0"
               >
                 ✕
               </Button>
             </div>
             
-            <div className="bg-muted rounded-lg p-3 mb-3">
-              <pre className="text-sm overflow-x-auto">
+            {/* Code block with horizontal scroll for long lines */}
+            <div className="bg-muted rounded-lg p-2 sm:p-3 mb-2 sm:mb-3 overflow-x-auto">
+              <pre className="text-xs sm:text-sm overflow-x-auto">
                 <code>{lesson.codeSnippet}</code>
               </pre>
             </div>
 
+            {/* Key takeaways list - responsive text sizing */}
             {lesson.takeaways && (
               <div>
-                <h5 className="font-medium mb-2 text-sm">Key Takeaways:</h5>
+                <h5 className="font-medium mb-1.5 sm:mb-2 text-xs sm:text-sm">Key Takeaways:</h5>
                 <ul className="space-y-1">
                   {lesson.takeaways.map((takeaway, index) => (
-                    <li key={index} className="text-sm text-muted-foreground flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
-                      {takeaway}
+                    <li key={index} className="text-xs sm:text-sm text-muted-foreground flex items-start gap-2">
+                      <span className="text-primary mt-0.5 sm:mt-1 flex-shrink-0">•</span>
+                      <span className="flex-1">{takeaway}</span>
                     </li>
                   ))}
                 </ul>
