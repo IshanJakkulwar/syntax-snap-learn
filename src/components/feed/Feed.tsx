@@ -177,12 +177,8 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
   }
 
   return (
-    // Feed container - uses dvh (dynamic viewport height) for proper mobile browser support
-    // Snap scroll ensures cards align properly on all screen sizes
-    // overflow-y-auto enables vertical scrolling
-    <div ref={listRef} className="min-h-[100dvh] min-h-screen overflow-y-auto snap-scroll scrollbar-hide">
+    <div ref={listRef} className="h-screen overflow-y-auto snap-scroll scrollbar-hide">
       {feedItems.map((item, index) => (
-        // Each feed item wrapper - maintains full width responsiveness
         <div ref={(el) => (itemRefs.current[index] = el)} data-index={index} key={`${item.type}-${index}`} className="w-full">
           {item.type === "lesson" ? (
             <LessonCard
@@ -200,14 +196,12 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
               onSkip={handleQuizSkip}
             />
           ) : (
-            // Ad card - responsive sizing and spacing for all screens
-            // Uses dvh for consistent height across mobile browsers
-            <div className="min-h-[100dvh] min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary to-primary-glow relative snap-item px-4 sm:px-6">
-              <div className="text-center text-primary-foreground z-10 max-w-2xl">
-                <div className="text-6xl sm:text-7xl lg:text-8xl mb-4 sm:mb-6">{item.data.image}</div>
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold mb-3 sm:mb-4">{item.data.title}</h2>
-                <p className="text-lg sm:text-xl opacity-90 mb-6 sm:mb-8 max-w-md mx-auto px-4">{item.data.description}</p>
-                <button className="bg-white text-primary px-6 sm:px-8 py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-white/90 transition-colors">
+            <div className="h-screen w-full flex items-center justify-center bg-gradient-to-br from-primary to-primary-glow relative snap-item">
+              <div className="text-center text-primary-foreground z-10">
+                <div className="text-8xl mb-6">{item.data.image}</div>
+                <h2 className="text-3xl font-bold mb-4">{item.data.title}</h2>
+                <p className="text-xl opacity-90 mb-8 max-w-md">{item.data.description}</p>
+                <button className="bg-white text-primary px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/90 transition-colors">
                   {item.data.cta}
                 </button>
               </div>
@@ -216,9 +210,9 @@ export const Feed = ({ onNavigateToNotes }: FeedProps) => {
         </div>
       ))}
       
-      {/* Load more indicator - responsive text and padding */}
-      <div className="h-16 sm:h-20 flex items-center justify-center bg-muted/50">
-        <p className="text-xs sm:text-sm text-muted-foreground">Loading more lessons...</p>
+      {/* Load more indicator */}
+      <div className="h-20 flex items-center justify-center bg-muted/50">
+        <p className="text-sm text-muted-foreground">Loading more lessons...</p>
       </div>
     </div>
   );
